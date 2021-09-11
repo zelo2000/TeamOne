@@ -1,2 +1,34 @@
 # TeamOne
-Repository of the team project from OOA&amp;P
+
+## Table of Contents
+- [Team](#team)
+- [Description](#description)
+- [Architecture](#architecture)
+- [Storage](#storage)
+- [Resiliency model](#resiliency-model)
+- [Security model](#security-model)
+- [Hosted Service](#hosted-service)
+- [Telemetry](#telemetry)
+- [Monitoring](#monitoring)
+
+## Team
+- Zelinskyi Oleksandr
+- Romah Sofiia
+- Manokhin Denys
+- Bordun Mykhailo
+
+## Description
+
+## Architecture
+
+## Storage
+
+## Resiliency Model
+
+## Security Model
+
+## Hosted Service
+
+## Telemetry
+
+## Monitoring
