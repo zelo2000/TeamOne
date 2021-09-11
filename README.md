@@ -13,7 +13,7 @@
 
 ## Team
 - Zelinskyi Oleksandr
-- Romah Sofiia
+- Romakh Sofiia
 - Manokhin Denys
 - Bordun Mykhailo
 
