@@ -16,6 +16,7 @@
 - Romakh Sofiia
 - Manokhin Denys
 - Bordun Mykhailo
+- Kuhar Oleksandr
 
 ## Description
 
