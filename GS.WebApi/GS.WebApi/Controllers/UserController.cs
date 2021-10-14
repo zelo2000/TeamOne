@@ -1,4 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using GS.Business.Infrastructure.Query;
+using GS.Business.Query;
+using GS.Domain.Models;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 
 namespace GS.WebApi.Controllers
 {
@@ -6,14 +11,19 @@ namespace GS.WebApi.Controllers
     [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
-        public UserController()
+        private readonly IQueryHandler _queryHandler;
+
+        public UserController(IQueryHandler queryHandler)
         {
+            _queryHandler = queryHandler;
         }
 
-        [HttpGet]
-        public IActionResult GetUser()
+        [HttpGet("{id}")]
+        public async Task<ActionResult<User>> GetUser(Guid id)
         {
-            return Ok();
+            var query = new GetUserQuery(id);
+            var user = await _queryHandler.Handle<GetUserQuery, User>(query);
+            return Ok(user);
         }
     }
 }

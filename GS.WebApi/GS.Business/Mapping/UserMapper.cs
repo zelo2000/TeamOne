@@ -6,6 +6,9 @@
         {
             return new Domain.Models.User
             {
+                Id = user.Id,
+                Email = user.Email,
+                Username = user.Username
             };
         }
     }

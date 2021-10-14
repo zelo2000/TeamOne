@@ -1,8 +1,11 @@
-﻿namespace GS.Data.Repositories.UserRead
+﻿using GS.Data.Entities;
+using System;
+
+namespace GS.Data.Repositories.UserRead
 {
     public interface IUserReadRepository
     {
-
+        User GetUserById(Guid userId);
     }
 
     public class UserReadRepository : IUserReadRepository
@@ -12,6 +15,16 @@
         public UserReadRepository(GSDbContext dbContext)
         {
             _dbContext = dbContext;
+        }
+
+        public User GetUserById(Guid userId)
+        {
+            return new User
+            {
+                Id = Guid.Empty,
+                Email = "test@test.com",
+                Username = "test_user"
+            };
         }
     }
 }

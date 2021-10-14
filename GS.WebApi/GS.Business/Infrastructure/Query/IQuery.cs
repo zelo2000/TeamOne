@@ -1,4 +1,4 @@
-﻿namespace GS.Business.Infrastructure
+﻿namespace GS.Business.Infrastructure.Query
 {
     public interface IQuery<TResult>
     {
