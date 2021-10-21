@@ -1,5 +1,6 @@
 using GS.Business.Modules;
 using GS.Data.Modules;
+using GS.Domain.Models.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -21,10 +22,14 @@ namespace GS.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<MongoDbSettings>(Configuration.GetSection("MongoDatabaseSettings"));
+
             services.AddDataModule(Configuration);
             services.AddBusinessModule();
 
-            services.AddControllers();
+            services.AddControllers()
+               .AddNewtonsoftJson(options => options.UseMemberCasing());
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "GS.WebApi", Version = "v1" });

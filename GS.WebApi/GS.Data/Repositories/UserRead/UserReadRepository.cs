@@ -3,11 +3,6 @@ using System;
 
 namespace GS.Data.Repositories.UserRead
 {
-    public interface IUserReadRepository
-    {
-        User GetUserById(Guid userId);
-    }
-
     public class UserReadRepository : IUserReadRepository
     {
         private readonly GSDbContext _dbContext;

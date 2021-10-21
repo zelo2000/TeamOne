@@ -1,9 +1,5 @@
 ﻿namespace GS.Data.Repositories.UserWrite
 {
-    public interface IUserWriteRepository
-    {
-
-    }
 
     public class UserWriteRepository : IUserWriteRepository
     {
