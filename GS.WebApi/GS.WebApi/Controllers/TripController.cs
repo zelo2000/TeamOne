@@ -10,12 +10,12 @@ namespace GS.WebApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class TestController : ControllerBase
+    public class TripController : ControllerBase
     {
         private readonly ITripReadRepository _tripReadRepository;
         private readonly ITripWriteRepository _tripWriteRepository;
 
-        public TestController(ITripReadRepository tripReadRepository, ITripWriteRepository tripWriteRepository)
+        public TripController(ITripReadRepository tripReadRepository, ITripWriteRepository tripWriteRepository)
         {
             _tripReadRepository = tripReadRepository;
             _tripWriteRepository = tripWriteRepository;
@@ -32,6 +32,13 @@ namespace GS.WebApi.Controllers
         public async Task<IActionResult> CreateTrip([FromBody] Trip trip)
         {
             await _tripWriteRepository.CreateTrip(trip);
+            return Ok();
+        }
+
+        [HttpPost("{tripId}/node")]
+        public async Task<IActionResult> AddToDoNode(Guid tripId, [FromBody] ToDoNode node)
+        {
+            await _tripWriteRepository.AddToDoNode(tripId, node);
             return Ok();
         }
     }
