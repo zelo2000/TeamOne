@@ -9,11 +9,9 @@ namespace GS.Data.Entities
         public string Name { get; set; }
 
         [BsonElement]
-        [BsonRepresentation(BsonType.Array)]
         public List<ItemToTake> ItemsToTake { get; set; }
 
         [BsonElement]
-        [BsonRepresentation(BsonType.Array)]
         public List<ToDoNode> ToDoNodes { get; set; }
     }
 }
