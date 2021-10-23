@@ -11,10 +11,10 @@ namespace GS.Data.Entities
 
         public string Description { get; set; }
 
-        //[BsonRepresentation(BsonType.Int32)]
-        //public NodeType Type { get; set; }
+        [BsonRepresentation(BsonType.Int32)]
+        public NodeType Type { get; set; }
 
-        //public DateTime? Date { get; set; }
+        public DateTime? Date { get; set; }
 
         [BsonRepresentation(BsonType.Int32)]
         public NodeStatus Status { get; set; }
