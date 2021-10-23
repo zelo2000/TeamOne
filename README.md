@@ -3,7 +3,7 @@
 ## **Table of Contents**
 
 - [Team](#team)
-- [Description](#description)
+- [Description](#project-description)
 - [Architecture](#architecture)
 - [Storage](#storage)
 - [Resiliency model](#resiliency-model)
