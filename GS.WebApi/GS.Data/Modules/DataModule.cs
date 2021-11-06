@@ -22,9 +22,9 @@ namespace GS.Data.Modules
             services.AddDbContext<GSDbContext>(
                 options => options.UseSqlServer(configuration.GetConnectionString("SqlServerConnection")));
 
-            services.AddScoped<TripDbContext>();
-            services.AddScoped<ITripReadRepository, TripReadRepository>();
-            services.AddScoped<ITripWriteRepository, TripWriteRepository>();
+            services.AddScoped<TripDbContext>()
+                .AddScoped<ITripReadRepository, TripReadRepository>()
+                .AddScoped<ITripWriteRepository, TripWriteRepository>();
         }
     }
 }

@@ -1,4 +1,7 @@
-﻿namespace GS.Data.Repositories.UserWrite
+﻿using GS.Data.Entities;
+using System.Threading.Tasks;
+
+namespace GS.Data.Repositories.UserWrite
 {
 
     public class UserWriteRepository : IUserWriteRepository
@@ -8,6 +11,11 @@
         public UserWriteRepository(GSDbContext dbContext)
         {
             _dbContext = dbContext;
+        }
+
+        public async Task AddUser(User user)
+        {
+            await _dbContext.Users.AddAsync(user);
         }
     }
 }

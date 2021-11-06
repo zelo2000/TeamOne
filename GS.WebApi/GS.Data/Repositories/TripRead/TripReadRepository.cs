@@ -16,7 +16,7 @@ namespace GS.Data.Repositories.TripRead
             _tripDbContext = tripDbContext;
         }
 
-        public async Task<IEnumerable<Trip>> GetTripForUser(Guid userId)
+        public async Task<IEnumerable<Trip>> GetUserTrips(Guid userId)
         {
             var trips = await _tripDbContext.Trips.FindAsync(x => x.UserId == userId);
             return trips.ToList();

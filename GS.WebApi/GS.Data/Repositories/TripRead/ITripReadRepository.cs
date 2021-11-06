@@ -7,6 +7,6 @@ namespace GS.Data.Repositories.TripRead
 {
     public interface ITripReadRepository
     {
-        Task<IEnumerable<Trip>> GetTripForUser(Guid userId);
+        Task<IEnumerable<Trip>> GetUserTrips(Guid userId);
     }
 }

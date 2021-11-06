@@ -1,6 +1,8 @@
-﻿using GS.Data.Entities;
-using GS.Data.Repositories.TripRead;
-using GS.Data.Repositories.TripWrite;
+﻿using GS.Business.Command;
+using GS.Business.Infrastructure.Command;
+using GS.Business.Infrastructure.Query;
+using GS.Business.Query;
+using GS.Domain.Models.Trip;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -12,34 +14,41 @@ namespace GS.WebApi.Controllers
     [Route("api/[controller]")]
     public class TripController : ControllerBase
     {
-        private readonly ITripReadRepository _tripReadRepository;
-        private readonly ITripWriteRepository _tripWriteRepository;
+        private readonly ICommandHandler _commandHandler;
+        private readonly IQueryHandler _queryHandler;
 
-        public TripController(ITripReadRepository tripReadRepository, ITripWriteRepository tripWriteRepository)
+        public TripController(ICommandHandler commandHandler, IQueryHandler queryHandler)
         {
-            _tripReadRepository = tripReadRepository;
-            _tripWriteRepository = tripWriteRepository;
+            _commandHandler = commandHandler;
+            _queryHandler = queryHandler;
         }
 
-        [HttpGet("userId")]
-        public async Task<ActionResult<List<Trip>>> GetTripForUser(Guid userId)
+        [HttpGet("{tripId}")]
+        public async Task<ActionResult<TripModel>> GetById(Guid tripId)
         {
-            var trips = await _tripReadRepository.GetTripForUser(userId);
+            throw new NotImplementedException();
+        }
+
+        [HttpGet("user/{userId}")]
+        public async Task<ActionResult<IEnumerable<TripModel>>> GetByUserId(Guid userId)
+        {
+            var query = new GetUserTripsQuery(userId);
+            var trips = await _queryHandler.Handle<GetUserTripsQuery, IEnumerable<TripModel>>(query);
             return Ok(trips);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateTrip([FromBody] Trip trip)
+        public async Task<IActionResult> Create([FromBody] TripBaseModel trip)
         {
-            await _tripWriteRepository.CreateTrip(trip);
+            var command = new CreateTripCommand(trip);
+            await _commandHandler.Handle(command);
             return Ok();
         }
 
-        [HttpPost("{tripId}/node")]
-        public async Task<IActionResult> AddToDoNode(Guid tripId, [FromBody] ToDoNode node)
+        [HttpDelete]
+        public async Task<IActionResult> Delete(Guid tripId)
         {
-            await _tripWriteRepository.AddToDoNode(tripId, node);
-            return Ok();
+            throw new NotImplementedException();
         }
     }
 }

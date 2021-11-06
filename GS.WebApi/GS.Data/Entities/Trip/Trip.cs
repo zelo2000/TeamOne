@@ -8,6 +8,12 @@ namespace GS.Data.Entities
 {
     public class Trip : BaseObject
     {
+        public Trip()
+        {
+            ItemsToTake = new List<ItemToTake>();
+            ToDoNodes = new List<ToDoNode>();
+        }
+
         [BsonRepresentation(BsonType.Int32)]
         public TripStatus Status { get; set; }
 

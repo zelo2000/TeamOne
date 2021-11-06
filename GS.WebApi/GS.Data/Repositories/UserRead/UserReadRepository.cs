@@ -1,5 +1,7 @@
 ﻿using GS.Data.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Threading.Tasks;
 
 namespace GS.Data.Repositories.UserRead
 {
@@ -12,14 +14,16 @@ namespace GS.Data.Repositories.UserRead
             _dbContext = dbContext;
         }
 
-        public User GetUserById(Guid userId)
+        public async Task<User> GetByEmailAndPasswordHashAsync(string email, string passwordHash)
         {
-            return new User
-            {
-                Id = Guid.Empty,
-                Email = "test@test.com",
-                Username = "test_user"
-            };
+            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == email && u.PasswordHash == passwordHash);
+            return user;
+        }
+
+        public async Task<User> GetUserById(Guid userId)
+        {
+            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            return user;
         }
     }
 }

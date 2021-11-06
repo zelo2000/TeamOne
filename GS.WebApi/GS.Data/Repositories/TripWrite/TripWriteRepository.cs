@@ -21,7 +21,6 @@ namespace GS.Data.Repositories.TripWrite
 
         public async Task AddToDoNode(Guid tripId, ToDoNode node)
         {
-            node.Id = Guid.NewGuid();
             var update = Builders<Trip>.Update.AddToSet("ToDoNodes", node);
             await _tripDbContext.Trips.UpdateOneAsync(t => t.Id == tripId, update);
         }

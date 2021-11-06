@@ -1,13 +1,13 @@
 ﻿using GS.Business.Infrastructure.Query;
 using GS.Business.Mapping;
 using GS.Data.Repositories.UserRead;
-using GS.Domain.Models;
+using GS.Domain.Models.User;
 using System;
 using System.Threading.Tasks;
 
 namespace GS.Business.Query
 {
-    public class GetUserQuery : IQuery<User>
+    public class GetUserQuery : IQuery
     {
         public Guid UserId { get; }
 
@@ -17,7 +17,7 @@ namespace GS.Business.Query
         }
     }
 
-    public class GetUserHandler : IQueryHandler<GetUserQuery, User>
+    public class GetUserHandler : IQueryHandler<GetUserQuery, UserModel>
     {
         private readonly IUserReadRepository _userReadRepository;
 
@@ -26,9 +26,9 @@ namespace GS.Business.Query
             _userReadRepository = userReadRepository;
         }
 
-        public async Task<User> Handle(GetUserQuery query)
+        public async Task<UserModel> Handle(GetUserQuery query)
         {
-            var userEntity = _userReadRepository.GetUserById(query.UserId);
+            var userEntity = await _userReadRepository.GetUserById(query.UserId);
             return userEntity.ToDomain();
         }
     }

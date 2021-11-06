@@ -12,8 +12,7 @@ namespace GS.Business.Query.Core
             _queryHandlerFactory = queryHandlerFactory;
         }
 
-        public async Task<TResult> Handle<TQuery, TResult>(TQuery query)
-            where TQuery : IQuery<TResult> where TResult : class
+        public async Task<TResult> Handle<TQuery, TResult>(TQuery query) where TQuery : IQuery where TResult : class
         {
             var handler = _queryHandlerFactory.Create<TQuery, TResult>(query);
             return await handler.Handle(query);

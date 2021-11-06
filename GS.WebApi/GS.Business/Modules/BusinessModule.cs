@@ -1,4 +1,5 @@
 ﻿using GS.Business.Command.Core;
+using GS.Business.Infrastructure;
 using GS.Business.Infrastructure.Command;
 using GS.Business.Infrastructure.Query;
 using GS.Business.Query.Core;
@@ -12,11 +13,14 @@ namespace GS.Business.Modules
     {
         public static void AddBusinessModule(this IServiceCollection services)
         {
-            services.AddScoped<ICommandHandlerFactory, CommandHandlerFactory>();
-            services.AddScoped<ICommandHandler, CommandHandler>();
-
-            services.AddScoped<IQueryHandlerFactory, QueryHandlerFactory>();
-            services.AddScoped<IQueryHandler, QueryHandler>();
+            services.AddScoped<ICommandHandlerFactory, CommandHandlerFactory>()
+                .AddScoped<ICommandHandler, CommandHandler>()
+                .AddScoped<IQueryHandlerFactory, QueryHandlerFactory>()
+                .AddScoped<IQueryHandler, QueryHandler>()
+                .AddScoped<IDateTimeProvider, DateTimeProvider>()
+                .AddScoped<ITripStatusProvider, TripStatusProvider>()
+                .AddScoped<IAuthService, AuthService>()
+                .AddScoped<IPasswordHashProvider, PasswordHashProvider>();
 
             services.AddHandlers(typeof(ICommandHandler<>));
             services.AddHandlers(typeof(IQueryHandler<,>));

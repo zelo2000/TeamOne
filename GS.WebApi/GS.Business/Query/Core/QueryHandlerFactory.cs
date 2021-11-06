@@ -12,8 +12,7 @@ namespace GS.Business.Query.Core
             _serviceProvider = serviceProvider;
         }
 
-        public IQueryHandler<TQuery, TResult> Create<TQuery, TResult>(TQuery query)
-            where TQuery : IQuery<TResult> where TResult : class
+        public IQueryHandler<TQuery, TResult> Create<TQuery, TResult>(TQuery query) where TQuery : IQuery where TResult : class
         {
             var genericType = typeof(IQueryHandler<,>)
                 .MakeGenericType(query.GetType(), typeof(TResult));
