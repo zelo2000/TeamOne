@@ -1,3 +1,7 @@
+## Install yarn package manager
+
+### `npm install -g yarn`
+
 ## Available Scripts
 
 In the project directory, you can run:
