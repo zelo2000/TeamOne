@@ -20,7 +20,11 @@ namespace GS.Data.Modules
             services.AddScoped<IUserReadRepository, UserReadRepository>();
             services.AddScoped<IUserWriteRepository, UserWriteRepository>();
             services.AddDbContext<GSDbContext>(
-                options => options.UseSqlServer(configuration.GetConnectionString("SqlServerConnection")));
+                options => options.UseSqlServer(
+                        configuration.GetConnectionString("SqlServerConnection"),
+                        x => x.MigrationsAssembly("GS.Data")
+                    )
+                );
 
             services.AddScoped<TripDbContext>()
                 .AddScoped<ITripReadRepository, TripReadRepository>()
