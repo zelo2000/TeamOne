@@ -162,4 +162,6 @@ Example of _TripTemplate_ document for MongoDB:
 
 ## **Telemetry**
 
+Local application insights
+
 ## **Monitoring**
