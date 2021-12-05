@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route, } from "react-router-dom";
 
 import TestModule from './test-module/test-module';
 
-import './app.css';
+import './styles/base.scss';
 
 const App: FC = () => (
   <Router>
