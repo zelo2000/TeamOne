@@ -28,21 +28,27 @@ namespace GS.WebApi.Controllers
         }
 
         [HttpPut("{nodeId}")]
-        public async Task<IActionResult> Udpate(Guid nodeId, [FromBody] ToDoNodeBaseModel node)
+        public async Task<IActionResult> Update(Guid nodeId, [FromBody] ToDoNodeBaseModel node)
         {
-            throw new NotImplementedException();
+            var command = new UpdateToDoNodeCommand(nodeId, node);
+            await _commandHandler.Handle(command);
+            return Ok();
         }
 
         [HttpPatch("{nodeId}/{status}")]
         public async Task<IActionResult> SetStatus(Guid nodeId, NodeStatus status)
         {
-            throw new NotImplementedException();
+            var command = new SetToDoNodeStatusCommand(nodeId, status);
+            await _commandHandler.Handle(command);
+            return Ok();
         }
 
         [HttpDelete("{nodeId}")]
-        public async Task<IActionResult> Delete(Guid tripId, Guid nodeId)
+        public async Task<IActionResult> Delete(Guid nodeId)
         {
-            throw new NotImplementedException();
+            var command = new DeleteToDoNodeCommand(nodeId);
+            await _commandHandler.Handle(command);
+            return Ok();
         }
     }
 }

@@ -21,5 +21,11 @@ namespace GS.Data.Repositories.TripRead
             var trips = await _tripDbContext.Trips.FindAsync(x => x.UserId == userId);
             return trips.ToList();
         }
+
+        public async Task<IEnumerable<Trip>> GetTripById(Guid tripId)
+        {
+            var trips = await _tripDbContext.Trips.FindAsync(x => x.Id == tripId);
+            return trips.ToList();
+        }
     }
 }
