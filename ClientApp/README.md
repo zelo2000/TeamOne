@@ -1,12 +1,22 @@
 ## Install yarn package manager
 
-### `npm install -g yarn`
+```sh
+npm install -g yarn
+```
+
+## Install packages
+
+```sh
+yarn install
+```
 
 ## Available Scripts
 
 In the project directory, you can run:
 
-### `yarn start`
+```sh
+yarn start
+```
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
