@@ -3,3 +3,24 @@
 
 // Cystom variables and classes will be here
 // https://sass-lang.com/documentation/variables
+
+.main-layout {
+  min-height: 100vh;
+  height: 100%;
+
+  .header-layour {
+    position: 'fixed';
+    z-index: 1;
+    width: '100%';
+  }
+
+  .site-layout {
+    display: flex;
+    justify-content: center;
+    padding: 1.5rem;
+  }
+}
+
+.App {
+  display: table-cell;
+}
