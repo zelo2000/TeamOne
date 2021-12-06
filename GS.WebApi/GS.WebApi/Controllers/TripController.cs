@@ -26,7 +26,9 @@ namespace GS.WebApi.Controllers
         [HttpGet("{tripId}")]
         public async Task<ActionResult<TripModel>> GetById(Guid tripId)
         {
-            throw new NotImplementedException();
+            var query = new GetTripQuery(tripId);
+            var trips = await _queryHandler.Handle<GetTripQuery, IEnumerable<TripModel>>(query);
+            return Ok(trips);
         }
 
         [HttpGet("user/{userId}")]
@@ -48,7 +50,9 @@ namespace GS.WebApi.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete(Guid tripId)
         {
-            throw new NotImplementedException();
+            var command = new DeleteTripCommand(tripId);
+            await _commandHandler.Handle(command);
+            return Ok();
         }
     }
 }
