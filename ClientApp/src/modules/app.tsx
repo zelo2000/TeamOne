@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import { Layout, Menu } from 'antd';
 import Home from './Home';
-import StepsToDo from "../components/Steps";
+import Trip from './Trip';
 import './styles/base.scss';
 
 const { Header, Content } = Layout;
@@ -21,7 +21,7 @@ const App: FC = () => (
       <Router>
         <Switch>
           <Route exact path="/" component={Home}/>
-          <Route exact path="/trip" component={StepsToDo}/>
+          <Route exact path="/trip" component={Trip}/>
         </Switch>
       </Router>
     </Content>
