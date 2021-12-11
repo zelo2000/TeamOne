@@ -1,23 +1,64 @@
 import React, { FC } from 'react';
-import { BrowserRouter as Router, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Link } from "react-router-dom";
 
-import { Layout, Menu } from 'antd';
+import { Layout, Dropdown, Avatar, Menu } from 'antd';
 // import Home from './Home/Home';
 import StepsToDo from "../components/Steps/Steps";
 import './styles/base.scss';
+import logo from "../assets/logo.png";
+import { UserOutlined } from '@ant-design/icons';
 
 const { Header, Content } = Layout;
+const IsLogged = true;
+
+const NavBar = (
+  <Menu className={"dropdown-menu-items"}>
+    <Menu.Item key="1">
+      <Link to="/">Logout</Link>
+    </Menu.Item>
+  </Menu>
+);
 
 const App: FC = () => (
   <Router>
     <Switch>
       <Layout className="main-layout">
         <Header className="header-layout">
-          <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
-            <Menu.Item key="1">nav 1</Menu.Item>
-            <Menu.Item key="2">nav 2</Menu.Item>
-            <Menu.Item key="3">nav 3</Menu.Item>
-          </Menu>
+          <div className="header-elem">
+            <Link to="/">
+              <img
+                className = "logo-img"
+                src = {logo}
+                alt = "Logo"
+              />
+            </Link>
+          </div>          
+          { IsLogged ? 
+            <div className="header-elem">
+              <Dropdown
+                overlay={NavBar}
+                placement="bottomCenter"
+                trigger={["click"]}
+              >
+                <a href="# ">
+                  <Avatar
+                    icon={<UserOutlined />}
+                    size="large"
+                    className={"user-icon"}
+                  />
+                </a>
+              </Dropdown>
+            </div>
+              : 
+            <div className={"main-page-buttons"}>
+              <Link className={"login-button"} to="/">
+                Login
+              </Link>
+              <Link className={"signup-button"} to="/">
+                Sign up
+              </Link>
+            </div>
+          }
         </Header>
         <Content className="site-layout">
           {/* <Route exact path="/" component={Home} /> */}
