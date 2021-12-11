@@ -1,4 +1,4 @@
-import { Steps, Space } from 'antd';
+import { Steps } from 'antd';
 import React, { FC } from 'react';
 import StepTimeline from './StepTimeline';
 
@@ -24,11 +24,11 @@ const StepsToDo: FC<StepsToDoProps> = ({ before, during, after }: StepsToDoProps
   };
 
   const currentItems = () => {
-    if (current == 0)
+    if (current === 0)
       return before.items;
-    else if (current == 1)
+    else if (current === 1)
       return during.items;
-    else if (current == 2)
+    else if (current === 2)
       return after.items;
     else
       return []
