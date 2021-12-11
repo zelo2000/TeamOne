@@ -9,10 +9,10 @@ import logo from "../assets/logo.png";
 import { UserOutlined } from '@ant-design/icons';
 
 const { Header, Content } = Layout;
-const IsLogged = true;
+const isLogged = true;
 
 const NavBar = (
-  <Menu className={"dropdown-menu-items"}>
+  <Menu className="dropdown-menu-items">
     <Menu.Item key="1">
       <Link to="/">Logout</Link>
     </Menu.Item>
@@ -33,7 +33,7 @@ const App: FC = () => (
               />
             </Link>
           </div>          
-          { IsLogged ? 
+          { isLogged ? 
             <div className="header-elem">
               <Dropdown
                 overlay={NavBar}
@@ -44,17 +44,17 @@ const App: FC = () => (
                   <Avatar
                     icon={<UserOutlined />}
                     size="large"
-                    className={"user-icon"}
+                    className="user-icon"
                   />
                 </a>
               </Dropdown>
             </div>
               : 
-            <div className={"main-page-buttons"}>
-              <Link className={"login-button"} to="/">
+            <div className="main-page-buttons">
+              <Link className="login-button" to="/">
                 Login
               </Link>
-              <Link className={"signup-button"} to="/">
+              <Link className="signup-button" to="/">
                 Sign up
               </Link>
             </div>

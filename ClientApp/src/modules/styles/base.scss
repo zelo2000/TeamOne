@@ -6,6 +6,7 @@
 
 // colors
 $lightblue: rgba(28, 140, 252, 0.88);
+$header-font: 0.9375rem;
 
 %flex_align_center {
   display: flex;
@@ -33,8 +34,9 @@ $lightblue: rgba(28, 140, 252, 0.88);
       @extend %flex_align_center;
 
       a {
-        color: white;
         margin: 1rem;
+        color: white;
+        font-size: $header-font;
       }
       
       & > *:nth-child(1) {
