@@ -1,17 +1,64 @@
 @import "~antd/dist/antd.css";
 @import "./overrides.scss";
 
-// Cystom variables and classes will be here
+// Custom variables and classes will be here
 // https://sass-lang.com/documentation/variables
+
+// colors
+$lightblue: rgba(28, 140, 252, 0.88);
+$header-font: 0.9375rem;
+
+%flex_align_center {
+  display: flex;
+  align-items: center;
+}
 
 .main-layout {
   min-height: 100vh;
   height: 100%;
-
-  .header-layour {
+  
+  .header-layout {
     position: 'fixed';
     z-index: 1;
     width: '100%';
+    min-height: 5rem;
+    display: flex;
+    justify-content: space-between;
+
+    .logo-img {
+      width: 4.5rem;
+      transform: rotate(-5deg);
+    }
+    
+    .main-page-buttons {
+      @extend %flex_align_center;
+
+      a {
+        margin: 1rem;
+        color: white;
+        font-size: $header-font;
+      }
+      
+      & > *:nth-child(1) {
+        margin-right: 2rem;
+      }
+
+      & :hover {
+        border-bottom: 2px solid white;
+        -webkit-transition: all 0.15s ease-in-out;
+        -o-transition: all 0.15s ease-in-out;
+        transition: all 0.15s ease-in-out;
+      }
+    }
+
+    .header-elem{
+      @extend %flex_align_center;
+    }
+
+    .user-icon {
+      margin-right: 2rem;
+      background-color: $lightblue;
+    }
   }
 
   .site-layout {
@@ -23,4 +70,9 @@
 
 .App {
   display: table-cell;
+}
+
+.dropdown-menu-items {
+  margin-right: 2rem;
+  border-left: 0.2rem solid $lightblue;
 }
