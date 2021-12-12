@@ -1,5 +1,5 @@
-export const enum TimelineColorType {
-  Before = "green",
-  During = "blue",
-  After = "gray"
+export enum TimelineColorType {
+  "green" = 0,
+  "blue" = 1,
+  "gray" = 2,
 }

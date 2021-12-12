@@ -35,17 +35,6 @@ const StepsToDo: FC<StepsToDoProps> = ({ before, during, after }: StepsToDoProps
     else
       return []
   }
-  
-  const currentColor = () => {
-    if (current === 0)
-      return TimelineColorType.Before;
-    else if (current === 1)
-      return TimelineColorType.During;
-    else if (current === 2)
-      return TimelineColorType.After;
-    else
-      return ""
-  }
 
   return (
     <>
@@ -60,7 +49,7 @@ const StepsToDo: FC<StepsToDoProps> = ({ before, during, after }: StepsToDoProps
         <Step key="after" status={after.status} title="After"/>
       </Steps>
       <div className='steps-content'>
-        <StepTimeline items={currentItems()} color={currentColor()}/>
+        <StepTimeline items={currentItems()} color={TimelineColorType[current]}/>
       </div>
     </>
   );

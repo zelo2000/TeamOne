@@ -1,8 +1,9 @@
 import React, { FC } from 'react';
-import { Card, Col, Row } from 'antd';
+import { Card, Col } from 'antd';
 import { Link } from 'react-router-dom';
 
 import { TripModel } from '../models/TripModel';
+import moment from 'moment';
 
 const { Meta } = Card;
 
@@ -10,11 +11,15 @@ interface CardListProps {
   trips: TripModel[]
 };
 
+function isSomeValueDefined(someValue: any): any {
+  if (!!someValue) {
+    return someValue
+  }
+}
+
 const TripsCardList: FC<CardListProps> = ({ trips }: CardListProps) => {
   return (
-    <div className="site-card-wrapper">
-    <Row gutter={16}>
-      <Col span={8}>
+      <Col xs={12} sm={8} md={8} lg={6}>
         {trips.map((trip) => {
           return (
             <Link key={trip.Id} to={`trip/${trip.Id}`}>
@@ -25,15 +30,15 @@ const TripsCardList: FC<CardListProps> = ({ trips }: CardListProps) => {
               >
                 <Meta
                   title={trip.Name}
-                  description={trip.Description}
+                  description={isSomeValueDefined(trip.Description)}
                 />
+                {moment(isSomeValueDefined(trip.StartDate)).format("MMM Do YY") + " - " +
+                  moment(isSomeValueDefined(trip.EndDate)).format("MMM Do YY")}   
               </Card>
             </Link>
           );
         })}
       </Col>
-    </Row>
-  </div>
   );
 };
 
