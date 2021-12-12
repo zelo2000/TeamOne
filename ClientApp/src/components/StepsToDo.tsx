@@ -1,6 +1,7 @@
 import { Steps } from 'antd';
 import React, { FC } from 'react';
 import StepTimeline from './StepTimeline';
+import { TimelineColorType } from '../models/TimelineColorType';
 
 const { Step } = Steps;
 
@@ -37,11 +38,11 @@ const StepsToDo: FC<StepsToDoProps> = ({ before, during, after }: StepsToDoProps
   
   const currentColor = () => {
     if (current === 0)
-      return "green";
+      return TimelineColorType.Before;
     else if (current === 1)
-      return "blue";
+      return TimelineColorType.During;
     else if (current === 2)
-      return "gray";
+      return TimelineColorType.After;
     else
       return ""
   }

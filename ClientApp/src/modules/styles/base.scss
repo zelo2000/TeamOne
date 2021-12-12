@@ -4,6 +4,9 @@
 // Custom variables and classes will be here
 // https://sass-lang.com/documentation/variables
 
+// link
+$trip-url: "../../assets/st_patrick's_cathedral_new_york.png";
+
 // colors
 $darkblue: rgba(0, 21, 41, 1);
 $lightblue: rgba(28, 140, 252, 0.88);
@@ -93,3 +96,11 @@ $header-font: 0.9375rem;
 .site-navigation-steps {
   padding-bottom: 2rem;
 }
+
+.trip-img {
+  min-height: 5rem;
+  background-image: url($trip-url);
+  background-repeat: no-repeat;
+  background-size: cover; 
+}
+

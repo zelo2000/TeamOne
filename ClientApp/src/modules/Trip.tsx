@@ -3,23 +3,23 @@ import { Row, Col } from 'antd';
 import { useParams } from 'react-router-dom';
 import TripDescriptionForm from '../components/TripDescriptionForm';
 import StepsToDo, { StepsToDoProps } from "../components/StepsToDo";
-
+import { TimelineColorType } from '../models/TimelineColorType';
 
 const data: StepsToDoProps = {
   before: {
     status: "finish",
     items: ["item1", "item2"],
-    color: "green"
+    color: TimelineColorType.Before
   },
   during: {
     status: "process",
     items: ["item1", "item2", "item3", "item4"],
-    color: "blue"
+    color: TimelineColorType.During
   },
   after: {
     status: "wait",
     items: ["item1"],
-    color: "gray"
+    color: TimelineColorType.After
   }
 }
 
