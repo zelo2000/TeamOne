@@ -28,6 +28,13 @@ namespace GS.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(o => o.AddPolicy("Default", builder =>
+            {
+                builder.WithOrigins("http://localhost:3000")
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+            }));
+
             services.Configure<MongoDbSettings>(Configuration.GetSection("MongoDatabaseSettings"));
             services.Configure<HashGenerationSettings>(Configuration.GetSection("HashGenerationSetting"));
             services.Configure<AuthSetting>(Configuration.GetSection("AuthSetting"));
@@ -74,6 +81,7 @@ namespace GS.WebApi
         {
             if (env.IsDevelopment())
             {
+                app.UseCors("Default");
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "GS.WebApi v1"));

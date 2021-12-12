@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig, AxiosError, AxiosResponse } from 'axios';
 import { WriteToken, GetAuthData, CleanToken } from './storage-helper';
 
 const instance = axios.create({
-  baseURL: '/api/',
+  baseURL: `${process.env.REACT_APP_API_URL}/api/`,
 });
 
 instance.interceptors.request.use((config: AxiosRequestConfig<any>) => {

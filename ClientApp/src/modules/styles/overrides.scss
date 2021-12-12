@@ -1,1 +1,29 @@
 // Here will be ant design classes overrides
+
+$darkblue: rgba(0, 21, 41, 1);
+$header-font: 0.9375rem;
+
+.ant-form-vertical .ant-form-item-label > label {
+  margin-left: 2%;
+}
+
+.ant-timeline-item-tail {
+  border-left: 2px solid $darkblue;
+}
+
+.ant-timeline-item {
+  font-size: $header-font;
+}
+
+.ant-timeline.ant-timeline-alternate .ant-timeline-item-head {
+  margin-left: -7px;
+}
+
+.ant-timeline-item-head {
+  width: 1rem;
+  height: 1rem;
+}
+
+.ant-timeline.ant-timeline-alternate .ant-timeline-item-right .ant-timeline-item-content {
+  width: calc(50% - 24px);
+}
