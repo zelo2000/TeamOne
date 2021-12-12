@@ -2,8 +2,8 @@ import React, { FC } from 'react';
 import { Form, Input, Button, Row, Col } from 'antd';
 
 interface TripDesctiprionFormProps {
-  name: string;
-  description: string;
+  name?: string;
+  description?: string;
 }
 
 const TripDescriptionForm: FC<TripDesctiprionFormProps> = ({name, description}: TripDesctiprionFormProps) => {
@@ -15,13 +15,13 @@ const TripDescriptionForm: FC<TripDesctiprionFormProps> = ({name, description}: 
     <Form
       layout="vertical"
       onFinish={onFinish}
-      initialValues={{name: name, description: description}}
+      initialValues={{Name: name, Description: description}}
       className="trip-form"
     >
-      <Form.Item name="name" label="Name">
+      <Form.Item name="Name" label="Name">
         <Input/>
       </Form.Item>
-      <Form.Item name="description" label="Description">
+      <Form.Item name="Description" label="Description">
         <Input.TextArea/>
       </Form.Item>
       <Form.Item>
