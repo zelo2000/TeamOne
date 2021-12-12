@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import { Row, Col } from 'antd';
+import { useParams } from 'react-router-dom';
 import TripDescriptionForm from '../components/TripDescriptionForm';
 import StepsToDo, { StepsToDoProps } from "../components/StepsToDo";
 
@@ -23,6 +24,8 @@ const data: StepsToDoProps = {
 }
 
 const Trip: FC = () => {
+  const params = useParams();
+  
   return (
     <Row justify="center" className="trip-content">
       <Col xs={22} sm={18} md={14} lg={10}>
