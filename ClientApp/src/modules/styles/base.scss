@@ -5,7 +5,10 @@
 // https://sass-lang.com/documentation/variables
 
 // colors
+$darkblue: rgba(0, 21, 41, 1);
 $lightblue: rgba(28, 140, 252, 0.88);
+
+// fonts
 $header-font: 0.9375rem;
 
 %flex_align_center {
@@ -61,18 +64,32 @@ $header-font: 0.9375rem;
     }
   }
 
-  .site-layout {
+  .content-layout {
     display: flex;
     justify-content: center;
-    padding: 1.5rem;
+    padding: 1rem;
   }
-}
-
-.App {
-  display: table-cell;
 }
 
 .dropdown-menu-items {
   margin-right: 2rem;
   border-left: 0.2rem solid $lightblue;
+}
+
+.trip-content {
+  width: 100%;
+
+  .trip-form {
+    height: 100%;
+
+    .trip-button { 
+      button[type=submit] {
+        width: 100%;
+      }
+    }
+  }
+}
+
+.site-navigation-steps {
+  padding-bottom: 2rem;
 }

@@ -2,7 +2,6 @@ import React, { FC } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { Layout, Dropdown, Avatar, Menu } from 'antd';
 
-import Home from './Home';
 import Trip from './Trip';
 
 import './styles/base.scss';
@@ -60,9 +59,8 @@ const App: FC = () => (
           </div>
         }
       </Header>
-      <Content className="site-layout">
+      <Content className="content-layout">
         <Switch>
-          <Route exact path="/" component={Home}/>
           <Route exact path="/trip" component={Trip}/>
         </Switch>
       </Content>
