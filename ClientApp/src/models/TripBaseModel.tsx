@@ -1,7 +1,7 @@
 export interface TripBaseModel {
-  userId: string;
-  name?: string;
-  description?: string;
-  startDate?: string;
-  endDate?: string;
+  UserId: string;
+  Name?: string;
+  Description?: string;
+  StartDate?: string;
+  EndDate?: string;
 }

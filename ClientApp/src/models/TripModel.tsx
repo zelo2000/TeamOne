@@ -5,8 +5,8 @@ import { ToDoNodeModel } from "./ToDoNodeModel";
 
 
 export interface TripModel extends TripBaseModel {
-  id: string;
-  status: TripStatus;
-  itemsToTake: ItemToTakeModel[];
-  toDoNodes: ToDoNodeModel[];
+  Id: string;
+  Status: TripStatus;
+  ItemsToTake: ItemToTakeModel[];
+  ToDoNodes: ToDoNodeModel[];
 }
