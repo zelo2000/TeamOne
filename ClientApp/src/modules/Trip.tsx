@@ -6,6 +6,7 @@ import TripDescriptionForm from '../components/TripDescriptionForm';
 import StepsToDo, { StepsToDoProps } from "../components/StepsToDo";
 import { TimelineColorType } from '../models/TimelineColorType';
 import { TripModel } from '../models/TripModel';
+import { TripBaseModel } from '../models/TripBaseModel';
 import TripService from '../services/TripService';
 
 const data: StepsToDoProps = {
@@ -35,7 +36,7 @@ const Trip: FC = () => {
   const [trip, setTrip] = useState<TripModel>();
 
   useEffect(() => {
-    TripService.getTripById(tripId)
+    TripService.getById(tripId)
       .then((response: any) => {
         setTrip(response.data[0])
       })
@@ -47,7 +48,7 @@ const Trip: FC = () => {
   return (
     <Row justify="center" className="trip-content">
       <Col xs={22} sm={18} md={14} lg={10}>
-        {trip ? <TripDescriptionForm name={trip.Name} description={trip.Description}/> : <></>}
+        {trip ? <TripDescriptionForm {...trip as TripBaseModel}/> : <></>}
       </Col>
       <Col xs={24} sm={22} md={20} lg={18}>
         <StepsToDo {...data}/>

@@ -1,28 +1,39 @@
 import React, { FC } from 'react';
-import { Form, Input, Button, Row, Col } from 'antd';
+import { Form, Input, DatePicker, Button, Row, Col } from 'antd';
+import moment from 'moment';
+
+import { TripBaseModel } from "../models/TripBaseModel";
+
+const { RangePicker } = DatePicker;
 
 interface TripDesctiprionFormProps {
+  id: string;
   name?: string;
   description?: string;
 }
 
-const TripDescriptionForm: FC<TripDesctiprionFormProps> = ({name, description}: TripDesctiprionFormProps) => {
+const TripDescriptionForm: FC<TripBaseModel> = ({Name, Description, StartDate, EndDate }: TripBaseModel) => {
   const onFinish = (values: any) => {
     console.log(values);
   };
+
+  const dateFormat = 'YYYY-MM-DD';
 
   return (
     <Form
       layout="vertical"
       onFinish={onFinish}
-      initialValues={{Name: name, Description: description}}
+      initialValues={{name: Name, description: Description, rangePicker: [moment(StartDate), moment(EndDate)]}}
       className="trip-form"
     >
-      <Form.Item name="Name" label="Name">
+      <Form.Item name="name" label="Name">
         <Input/>
       </Form.Item>
-      <Form.Item name="Description" label="Description">
+      <Form.Item name="description" label="Description">
         <Input.TextArea/>
+      </Form.Item>
+      <Form.Item name="rangePicker" label="Dates">
+        <RangePicker format={dateFormat}/>
       </Form.Item>
       <Form.Item>
         <Row>
