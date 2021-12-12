@@ -1,5 +1,6 @@
 ﻿using GS.Data.Entities;
 using GS.Domain.Enums;
+using GS.Domain.Models.Trip;
 using MongoDB.Driver;
 using System;
 using System.Threading.Tasks;
@@ -18,6 +19,16 @@ namespace GS.Data.Repositories.TripWrite
         public async Task CreateTrip(Trip trip)
         {
             await _tripDbContext.Trips.InsertOneAsync(trip);
+        }
+
+        public async Task UpdateTrip(Guid tripId, TripBaseModel trip)
+        {
+            var update = Builders<Trip>.Update.Set("Name", trip.Name)
+                .Set("Description", trip.Description)
+                .Set("EndDate", trip.EndDate)
+                .Set("StartDate", trip.StartDate);
+
+            await _tripDbContext.Trips.UpdateOneAsync(t => t.Id == tripId, update);
         }
 
         public async Task DeleteTrip(Guid tripId)
@@ -41,7 +52,7 @@ namespace GS.Data.Repositories.TripWrite
 
             await _tripDbContext.Trips.UpdateOneAsync(filter, update);
         }
-        
+
         public async Task SetToDoNodeStatus(Guid nodeId, NodeStatus status)
         {
             var filter = Builders<Trip>.Filter.Eq("ToDoNodes._id", nodeId);
