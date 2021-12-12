@@ -9,17 +9,17 @@ const data: StepsToDoProps = {
   before: {
     status: "finish",
     items: ["item1", "item2"],
-    color: TimelineColorType.Before
+    color: TimelineColorType[1]
   },
   during: {
     status: "process",
     items: ["item1", "item2", "item3", "item4"],
-    color: TimelineColorType.During
+    color: TimelineColorType[2]
   },
   after: {
     status: "wait",
     items: ["item1"],
-    color: TimelineColorType.After
+    color: TimelineColorType[3]
   }
 }
 

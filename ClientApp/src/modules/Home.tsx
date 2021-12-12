@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Row, Col, Typography } from 'antd';
+import { Card, Row, Col, Typography, Button, Divider  } from 'antd';
 import TripService from '../services/TripService';
 import { TripModel } from '../models/TripModel';
 import { TripStatus } from '../models/TripStatus';
@@ -23,23 +23,43 @@ const Home: FC = () => {
   
   return (
     <>
-      <Row justify="center" className="trip-content">
-        <Col xs={24} sm={22} md={20} lg={18}>
-          <Title>In progress</Title>
-          <TripsCardList trips={trips.filter(trip => trip.Status === TripStatus.InProgress)}/>
-        </Col>
-      </Row>
-        <Row justify="center" className="trip-content">
-        <Col xs={24} sm={22} md={20} lg={18}>
-          <Title>Planned</Title>
-          <TripsCardList trips={trips.filter(trip => trip.Status === TripStatus.Planned)}/>
-        </Col>
-      </Row>
-      <Row justify="center" className="trip-content">
-        <Col xs={24} sm={22} md={20} lg={18}>
-          <Title>Finished</Title>
-          <TripsCardList trips={trips.filter(trip => trip.Status === TripStatus.Closed)}/>
-        </Col>
+      <Row gutter={[0, 12]} justify="center" className="trip-content">
+        <Col xs={24} sm={24} md={22} lg={20}>
+            <Title level={3} underline>In progress</Title>
+            <div className="site-card-wrapper">
+              <Row gutter={[16, 16]}> 
+                <TripsCardList trips={trips.filter(trip => trip.Status === TripStatus.InProgress)}/>
+              </Row>
+            </div>
+          </Col>
+          <Col xs={24} sm={24} md={22} lg={20}>
+            <Title level={3} underline>Planned</Title>
+            <div className="site-card-wrapper">
+              <Row gutter={[16, 16]} align="middle"> 
+                <TripsCardList trips={trips.filter(trip => trip.Status === TripStatus.Planned)}/>
+                <Col xs={12} sm={8} md={8} lg={6}>
+                <Card 
+                  bordered={false} 
+                  cover={<div className="trip-img"></div>}
+                  >
+                  <Row justify="center" className="add-trip-button">
+                    <Button type="primary">
+                      Add trip
+                    </Button>
+                  </Row>
+                </Card>
+                </Col>
+              </Row>
+            </div>
+          </Col>
+          <Col xs={24} sm={24} md={22} lg={20}>
+            <Title level={3} underline>Finished</Title>
+            <div className="site-card-wrapper">
+              <Row gutter={[16, 16]}> 
+                <TripsCardList trips={trips.filter(trip => trip.Status === TripStatus.Closed)}/>
+              </Row>
+            </div>
+          </Col>
       </Row>
     </>
   );
