@@ -60,7 +60,7 @@ const App: FC = () => (
           </div>
         }
       </Header>
-      <Content className="site-layout">
+      <Content className="content-layout">
         <Switch>
           <Route exact path="/" component={Home}/>
           <Route exact path="/trip" component={Trip}/>

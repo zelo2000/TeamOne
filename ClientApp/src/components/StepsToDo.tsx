@@ -7,6 +7,7 @@ const { Step } = Steps;
 interface TripStepData {
   status: 'wait' | 'process' | 'finish' | 'error';
   items: string[];
+  color: string;
 }
 
 export interface StepsToDoProps {
@@ -33,6 +34,17 @@ const StepsToDo: FC<StepsToDoProps> = ({ before, during, after }: StepsToDoProps
     else
       return []
   }
+  
+  const currentColor = () => {
+    if (current === 0)
+      return "green";
+    else if (current === 1)
+      return "blue";
+    else if (current === 2)
+      return "gray";
+    else
+      return ""
+  }
 
   return (
     <>
@@ -47,7 +59,7 @@ const StepsToDo: FC<StepsToDoProps> = ({ before, during, after }: StepsToDoProps
         <Step key="after" status={after.status} title="After"/>
       </Steps>
       <div className='steps-content'>
-        <StepTimeline items={currentItems()}/>
+        <StepTimeline items={currentItems()} color={currentColor()}/>
       </div>
     </>
   );
