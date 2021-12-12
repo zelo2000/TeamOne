@@ -47,6 +47,14 @@ namespace GS.WebApi.Controllers
             return Ok();
         }
 
+        [HttpPut("{tripId}")]
+        public async Task<IActionResult> Update(Guid tripId, [FromBody] TripBaseModel trip)
+        {
+            var command = new UpdateTripCommand(tripId, trip);
+            await _commandHandler.Handle(command);
+            return Ok();
+        }
+
         [HttpDelete]
         public async Task<IActionResult> Delete(Guid tripId)
         {

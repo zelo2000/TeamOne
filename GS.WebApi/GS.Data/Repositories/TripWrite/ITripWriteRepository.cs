@@ -1,5 +1,6 @@
 ﻿using GS.Data.Entities;
 using GS.Domain.Enums;
+using GS.Domain.Models.Trip;
 using System;
 using System.Threading.Tasks;
 
@@ -8,6 +9,8 @@ namespace GS.Data.Repositories.TripWrite
     public interface ITripWriteRepository
     {
         Task CreateTrip(Trip trip);
+
+        Task UpdateTrip(Guid tripId, TripBaseModel trip);
 
         Task DeleteTrip(Guid tripId);
 
