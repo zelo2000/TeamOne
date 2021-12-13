@@ -1,8 +1,12 @@
 import React, { FC } from 'react';
-import { Timeline } from 'antd';
+import { Timeline, DatePicker } from 'antd';
+import moment from 'moment';
+
+import { ToDoNodeModel } from '../models/ToDoNodeModel';
+import { ToDoNodeBaseModel } from '../models/ToDoNodeBaseModel';
 
 interface StepTimelineProps {
-  items: string[];
+  items: ToDoNodeModel[];
   color: string;
 }
 
@@ -11,7 +15,10 @@ const StepTimeline: FC<StepTimelineProps> = ({ items, color }: StepTimelineProps
     <Timeline mode="alternate">
       {items.map(item => {
         return (
-          <Timeline.Item color={color}>{item}</Timeline.Item>
+          <Timeline.Item color={color} label={item.Date ? moment(item.Date).format("YYYY-MM-DD") : undefined}>
+            <h1>{item.Name}</h1>
+            <p>{item.Description}</p>
+          </Timeline.Item>
         );
       })}
     </Timeline>
