@@ -10,8 +10,8 @@ const getById = async (id: string) => {
     return await instanceApi.get<TripModel[]>(`/trip/${id}`);
 };
 
-const save = async (trip: TripBaseModel): Promise<void> => {
-    return await instanceApi.post('/trip', trip);
+const save = async (id: string, trip: TripBaseModel): Promise<void> => {
+    return await instanceApi.put(`/trip/${id}`, trip);
 };
 
 const TripService = {
