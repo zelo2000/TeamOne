@@ -101,9 +101,13 @@ $header-font: 0.9375rem;
   min-height: 5rem;
   background-image: url($trip-url);
   background-repeat: no-repeat;
-  background-size: cover; 
+  background-size: cover;
 }
 
-.add-trip-button {
-  margin: 18.6px 0px;
+.trip-card-desc {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }

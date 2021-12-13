@@ -51,7 +51,7 @@ const Home: FC = () => {
           <Col xs={24} sm={24} md={22} lg={20}>
             <Title level={3} underline>Planned</Title>
             <div className="site-card-wrapper">
-              <Row gutter={[16, 16]} align="middle"> 
+              <Row gutter={[16, 16]}> 
                 <TripsCardList trips={trips.filter(trip => trip.Status === TripStatus.Planned)}/>
                 <Col xs={12} sm={8} md={8} lg={6}>
                 <Card 
