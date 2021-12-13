@@ -10,16 +10,32 @@ const { Title } = Typography;
 const Home: FC = () => {
   const [trips, setTrips] = useState([] as TripModel[]);
 
+  const userId = "a3ce5e17-35eb-4c1d-a6fe-565ddd67316c";
+
+  const loadTrips = (userId: string) => {
+    TripService.getByUserId(userId)
+    .then((response: any) => {
+      setTrips(response.data);
+      console.log(response.data);
+    })
+    .catch((e: Error) => {
+      console.log(e);
+    });
+  }
+
   useEffect(() => {
-    TripService.getByUserId("a3ce5e17-35eb-4c1d-a6fe-565ddd67316c")
-      .then((response: any) => {
-        setTrips(response.data);
-        console.log(response.data);
+    loadTrips(userId);
+  }, []);
+
+  const createTrip = () => {
+    TripService.create({UserId: userId})
+      .then(() => {
+        loadTrips(userId);
       })
       .catch((e: Error) => {
         console.log(e);
       });
-  }, []);
+  };
   
   return (
     <>
@@ -40,7 +56,9 @@ const Home: FC = () => {
                 <Col xs={12} sm={8} md={8} lg={6}>
                 <Card 
                   bordered={false} 
+                  hoverable={true}
                   cover={<div className="trip-img"></div>}
+                  onClick={createTrip}
                   >
                   <Row justify="center" className="add-trip-button">
                     <Button type="primary">

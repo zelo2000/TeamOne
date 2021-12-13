@@ -14,10 +14,15 @@ const save = async (id: string, trip: TripBaseModel): Promise<void> => {
     return await instanceApi.put(`/trip/${id}`, trip);
 };
 
+const create = async (trip: TripBaseModel): Promise<void> => {
+    return await instanceApi.post('/trip', trip);
+};
+
 const TripService = {
     getByUserId,
     getById,
-    save
+    save,
+    create
 };
 
 export default TripService;

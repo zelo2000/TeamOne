@@ -32,7 +32,7 @@ const TripDescriptionForm: FC<TripDesctiprionFormProps> = ({ trip, onSubmit }: T
       initialValues={{
         name: trip.Name,
         description: trip.Description,
-        dates: [moment(trip.StartDate), moment(trip.EndDate)]
+        dates: (trip.StartDate && trip.EndDate) ? [moment(trip.StartDate), moment(trip.EndDate)] : []
       }}
       className="trip-form"
     >
