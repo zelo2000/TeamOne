@@ -7,8 +7,10 @@ import StepsToDo from "../components/StepsToDo";
 import { TimelineColorType } from '../models/TimelineColorType';
 import { TripBaseModel } from '../models/TripBaseModel';
 import { ItemToTakeModel } from '../models/ItemToTakeModel';
-import { ToDoNodeModel } from '../models/ToDoNodeModel';
 import TripService from '../services/TripService';
+import { ToDoNodeModel } from '../models/ToDoNodeModel';
+import { ToDoNodeBaseModel } from '../models/ToDoNodeBaseModel';
+import ToDoService from '../services/ToDoService';
 
 interface TripParams {
   tripId: string
@@ -20,7 +22,7 @@ const Trip: FC = () => {
   const [itemsToTake, setItemsToTake] = useState<ItemToTakeModel[]>();
   const [toDoNodes, setToDoNodes] = useState<ToDoNodeModel[]>([]);
 
-  useEffect(() => {
+  const getTripData = () => {
     TripService.getById(tripId)
       .then((response: any) => {
         setTrip(response.data[0]);
@@ -30,17 +32,41 @@ const Trip: FC = () => {
       .catch((e: Error) => {
         console.log(e)
       });
-  }, []);
+  }
+
+  useEffect(getTripData, []);
 
   const onTripFormSubmit = (trip: TripBaseModel): void => {
     TripService.save(tripId, trip)
-    .then(() => {
-      console.log("success");
-      setTrip(trip);
-    })
-    .catch((e: Error) => {
-      console.log(e);
-    });
+      .then(() => {
+        console.log("success");
+        setTrip(trip);
+      })
+      .catch((e: Error) => {
+        console.log(e);
+      });
+  };
+
+  const onAddToDoNode = (toDoNode: ToDoNodeBaseModel): void => {
+    ToDoService.create(tripId, toDoNode)
+      .then(() => {
+        console.log("success");
+        getTripData();
+      })
+      .catch((e: Error) => {
+        console.log(e);
+      });
+  };
+
+  const onRemoveToDoNode = (id: string): void => {
+    ToDoService.remove(id)
+      .then(() => {
+        console.log("success");
+        getTripData();
+      })
+      .catch((e: Error) => {
+        console.log(e);
+      });
   };
 
   return (
@@ -49,7 +75,7 @@ const Trip: FC = () => {
         {trip ? <TripDescriptionForm trip={trip as TripBaseModel} onSubmit={onTripFormSubmit}/> : <></>}
       </Col>
       <Col xs={24} sm={22} md={20} lg={18}>
-        <StepsToDo items={toDoNodes}/>
+        <StepsToDo items={toDoNodes} onAddToDoNode={onAddToDoNode} onRemoveToDoNode={onRemoveToDoNode}/>
       </Col>
     </Row>
   );

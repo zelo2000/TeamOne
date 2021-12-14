@@ -5,19 +5,26 @@ import StepTimeline from './StepTimeline';
 import { TimelineColorType } from '../models/TimelineColorType';
 import { NodeType } from '../models/NodeType';
 import { ToDoNodeModel } from '../models/ToDoNodeModel';
+import { ToDoNodeBaseModel } from '../models/ToDoNodeBaseModel';
 
 const { Step } = Steps;
 
 interface StepsToDoProps {
   items: ToDoNodeModel[];
+  onAddToDoNode: (toDoNode: ToDoNodeBaseModel) => void;
+  onRemoveToDoNode: (id: string) => void;
 }
 
-const StepsToDo: FC<StepsToDoProps> = ({ items }: StepsToDoProps) => {
+const StepsToDo: FC<StepsToDoProps> = ({ items, onAddToDoNode, onRemoveToDoNode }: StepsToDoProps) => {
   const [ current, setCurrent ] = React.useState(NodeType.Before);
 
   const onChange = (current: any) => {
     console.log('onChange:', current);
     setCurrent(current);
+  };
+
+  const onAddClicked = () => {
+    onAddToDoNode({Type: current});
   };
 
   return (
@@ -33,7 +40,11 @@ const StepsToDo: FC<StepsToDoProps> = ({ items }: StepsToDoProps) => {
         <Step key="after" status="process" title="After"/>
       </Steps>
       <div className='steps-content'>
-        <StepTimeline items={items.filter(item => item.Type === current)} color={TimelineColorType[current]}/>
+        <StepTimeline
+          items={items.filter(item => item.Type === current)}
+          color={TimelineColorType[current]}
+          onAddClicked={onAddClicked}
+          onRemoveClicked={onRemoveToDoNode}/>
       </div>
     </>
   );
