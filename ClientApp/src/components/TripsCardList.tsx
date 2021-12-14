@@ -25,6 +25,8 @@ const TripsCardList: FC<CardListProps> = ({ trips, onDelete }: CardListProps) =>
     e.preventDefault();
     confirm({
       title: 'Do you want to delete this trip?',
+      closable: true,
+      maskClosable: true,
       icon: <ExclamationCircleOutlined />,
       content: description,
       onOk() {
