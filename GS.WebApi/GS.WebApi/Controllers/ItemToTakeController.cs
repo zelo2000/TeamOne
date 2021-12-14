@@ -1,8 +1,11 @@
 ﻿using GS.Business.Command;
 using GS.Business.Infrastructure.Command;
+using GS.Business.Infrastructure.Query;
+using GS.Business.Query;
 using GS.Domain.Models.ItemToTake;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace GS.WebApi.Controllers
@@ -12,10 +15,20 @@ namespace GS.WebApi.Controllers
     public class ItemToTakeController : ControllerBase
     {
         private readonly ICommandHandler _commandHandler;
+        private readonly IQueryHandler _queryHandler;
 
-        public ItemToTakeController(ICommandHandler commandHandler)
+        public ItemToTakeController(ICommandHandler commandHandler, IQueryHandler queryHandler)
         {
             _commandHandler = commandHandler;
+            _queryHandler = queryHandler;
+        }
+
+        [HttpGet("{tripId}")]
+        public async Task<ActionResult<ItemToTakeModel>> GetById(Guid tripId)
+        {
+            var query = new GetItemsToTakeQuery(tripId);
+            var nodes = await _queryHandler.Handle<GetItemsToTakeQuery, IEnumerable<ItemToTakeModel>>(query);
+            return Ok(nodes);
         }
 
         [HttpPost("{tripId}")]
