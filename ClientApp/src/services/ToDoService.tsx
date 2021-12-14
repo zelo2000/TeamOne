@@ -1,6 +1,11 @@
 import instanceApi from '../utils/instanceApi';
 import { ToDoNodeBaseModel } from '../models/ToDoNodeBaseModel';
 import { NodeStatus } from '../models/NodeStatus';
+import { ToDoNodeModel } from '../models/ToDoNodeModel';
+
+const getByTripId = async (tripId: string): Promise<ToDoNodeModel[]> => {
+    return await instanceApi.get(`/todonode/${tripId}`);
+}
 
 const create = async (tripId: string, toDoNode: ToDoNodeBaseModel): Promise<void> => {
     return await instanceApi.post(`/todonode/${tripId}`, toDoNode);
@@ -19,6 +24,7 @@ const updateStatus = async (nodeId: string, status: NodeStatus): Promise<void> =
 };
 
 const ToDoService = {
+    getByTripId,
     create,
     save,
     remove,

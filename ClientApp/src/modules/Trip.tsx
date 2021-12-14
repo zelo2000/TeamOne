@@ -35,6 +35,16 @@ const Trip: FC = () => {
       });
   }
 
+  const getToDoNodes = () => {
+    ToDoService.getByTripId(tripId)
+      .then((response: any) => {
+        setToDoNodes(response.data);
+      })
+      .catch((e: Error) => {
+        console.log(e);
+      });
+  };
+
   useEffect(getTripData, []);
 
   const onTripFormSubmit = (trip: TripBaseModel): void => {
@@ -52,7 +62,7 @@ const Trip: FC = () => {
     ToDoService.create(tripId, toDoNode)
       .then(() => {
         console.log("success");
-        getTripData();
+        getToDoNodes();
       })
       .catch((e: Error) => {
         console.log(e);
@@ -63,7 +73,7 @@ const Trip: FC = () => {
     ToDoService.remove(id)
       .then(() => {
         console.log("success");
-        getTripData();
+        getToDoNodes();
       })
       .catch((e: Error) => {
         console.log(e);
@@ -74,7 +84,7 @@ const Trip: FC = () => {
     ToDoService.updateStatus(id, status)
       .then(() => {
         console.log("success");
-        getTripData();
+        getToDoNodes();
       })
       .catch((e: Error) => {
         console.log(e);
