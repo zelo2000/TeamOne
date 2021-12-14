@@ -22,8 +22,8 @@ const TripsCardList: FC<CardListProps> = ({ trips }: CardListProps) => {
       <>
       {trips.map((trip) => {
           return (
-            <Col xs={12} sm={8} md={8} lg={6}>
-              <Link key={trip.Id} to={`trip/${trip.Id}`}>
+            <Col key={trip.Id} xs={12} sm={8} md={8} lg={6}>
+              <Link to={`trip/${trip.Id}`}>
                 <Card 
                   bordered={false} 
                   hoverable={true}
