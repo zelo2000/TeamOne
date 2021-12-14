@@ -1,9 +1,12 @@
 ﻿using GS.Business.Command;
 using GS.Business.Infrastructure.Command;
+using GS.Business.Infrastructure.Query;
+using GS.Business.Query;
 using GS.Domain.Enums;
 using GS.Domain.Models.ToDoNode;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace GS.WebApi.Controllers
@@ -13,10 +16,20 @@ namespace GS.WebApi.Controllers
     public class ToDoNodeController : ControllerBase
     {
         private readonly ICommandHandler _commandHandler;
+        private readonly IQueryHandler _queryHandler;
 
-        public ToDoNodeController(ICommandHandler commandHandler)
+        public ToDoNodeController(ICommandHandler commandHandler, IQueryHandler queryHandler)
         {
             _commandHandler = commandHandler;
+            _queryHandler = queryHandler;
+    }
+
+        [HttpGet("{tripId}")]
+        public async Task<ActionResult<ToDoNodeModel>> GetById(Guid tripId)
+        {
+            var query = new GetToDoNodesQuery(tripId);
+            var nodes = await _queryHandler.Handle<GetToDoNodesQuery, IEnumerable<ToDoNodeModel>>(query);
+            return Ok(nodes);
         }
 
         [HttpPost("{tripId}")]

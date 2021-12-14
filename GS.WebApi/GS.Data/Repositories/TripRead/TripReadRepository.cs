@@ -27,5 +27,21 @@ namespace GS.Data.Repositories.TripRead
             var trips = await _tripDbContext.Trips.FindAsync(x => x.Id == tripId);
             return trips.ToList();
         }
+
+        public async Task<IEnumerable<ToDoNode>> GetToDoNodes(Guid tripId)
+        {
+            var trips = await _tripDbContext.Trips.FindAsync(x => x.Id == tripId);
+            var trip = await trips.FirstOrDefaultAsync();
+            
+            return trip.ToDoNodes.ToList();
+        }
+
+        public async Task<IEnumerable<ItemToTake>> GetItemsToTake(Guid tripId)
+        {
+            var trips = await _tripDbContext.Trips.FindAsync(x => x.Id == tripId);
+            var trip = await trips.FirstOrDefaultAsync();
+
+            return trip.ItemsToTake.ToList();
+        }
     }
 }
