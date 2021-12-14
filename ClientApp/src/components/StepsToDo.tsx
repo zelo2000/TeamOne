@@ -6,6 +6,7 @@ import { TimelineColorType } from '../models/TimelineColorType';
 import { NodeType } from '../models/NodeType';
 import { ToDoNodeModel } from '../models/ToDoNodeModel';
 import { ToDoNodeBaseModel } from '../models/ToDoNodeBaseModel';
+import { NodeStatus } from '../models/NodeStatus';
 
 const { Step } = Steps;
 
@@ -13,9 +14,10 @@ interface StepsToDoProps {
   items: ToDoNodeModel[];
   onAddToDoNode: (toDoNode: ToDoNodeBaseModel) => void;
   onRemoveToDoNode: (id: string) => void;
+  onToDoNodeStatusChange: (id: string, status: NodeStatus) => void;
 }
 
-const StepsToDo: FC<StepsToDoProps> = ({ items, onAddToDoNode, onRemoveToDoNode }: StepsToDoProps) => {
+const StepsToDo: FC<StepsToDoProps> = ({ items, onAddToDoNode, onRemoveToDoNode, onToDoNodeStatusChange }: StepsToDoProps) => {
   const [ current, setCurrent ] = React.useState(NodeType.Before);
 
   const onChange = (current: any) => {
@@ -44,7 +46,8 @@ const StepsToDo: FC<StepsToDoProps> = ({ items, onAddToDoNode, onRemoveToDoNode 
           items={items.filter(item => item.Type === current)}
           color={TimelineColorType[current]}
           onAddClicked={onAddClicked}
-          onRemoveClicked={onRemoveToDoNode}/>
+          onRemoveClicked={onRemoveToDoNode}
+          onStatusChanged={onToDoNodeStatusChange}/>
       </div>
     </>
   );

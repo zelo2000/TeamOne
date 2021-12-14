@@ -11,6 +11,7 @@ import TripService from '../services/TripService';
 import { ToDoNodeModel } from '../models/ToDoNodeModel';
 import { ToDoNodeBaseModel } from '../models/ToDoNodeBaseModel';
 import ToDoService from '../services/ToDoService';
+import { NodeStatus } from '../models/NodeStatus';
 
 interface TripParams {
   tripId: string
@@ -69,13 +70,29 @@ const Trip: FC = () => {
       });
   };
 
+  const onToDoNodeStatusChange = (id: string, status: NodeStatus): void => {
+    ToDoService.updateStatus(id, status)
+      .then(() => {
+        console.log("success");
+        getTripData();
+      })
+      .catch((e: Error) => {
+        console.log(e);
+      });
+  };
+
   return (
     <Row justify="center" className="trip-content">
       <Col xs={22} sm={18} md={14} lg={10}>
         {trip ? <TripDescriptionForm trip={trip as TripBaseModel} onSubmit={onTripFormSubmit}/> : <></>}
       </Col>
       <Col xs={24} sm={22} md={20} lg={18}>
-        <StepsToDo items={toDoNodes} onAddToDoNode={onAddToDoNode} onRemoveToDoNode={onRemoveToDoNode}/>
+        <StepsToDo
+          items={toDoNodes}
+          onAddToDoNode={onAddToDoNode}
+          onRemoveToDoNode={onRemoveToDoNode}
+          onToDoNodeStatusChange={onToDoNodeStatusChange}
+        />
       </Col>
     </Row>
   );

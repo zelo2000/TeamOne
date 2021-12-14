@@ -15,7 +15,7 @@ const remove = async (nodeId: string): Promise<void> => {
 }
 
 const updateStatus = async (nodeId: string, status: NodeStatus): Promise<void> => {
-    return await instanceApi.patch(nodeId, status);
+    return await instanceApi.patch(`/todonode/${nodeId}/${status}`);
 };
 
 const ToDoService = {
