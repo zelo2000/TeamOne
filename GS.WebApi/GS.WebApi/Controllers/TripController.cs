@@ -55,7 +55,7 @@ namespace GS.WebApi.Controllers
             return Ok();
         }
 
-        [HttpDelete]
+        [HttpDelete("{tripId}")]
         public async Task<IActionResult> Delete(Guid tripId)
         {
             var command = new DeleteTripCommand(tripId);

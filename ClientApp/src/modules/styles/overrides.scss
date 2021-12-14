@@ -30,4 +30,7 @@ $header-font: 0.9375rem;
 
 .ant-card-hoverable {
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
