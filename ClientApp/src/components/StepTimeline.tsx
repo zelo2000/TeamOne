@@ -20,7 +20,7 @@ const options = [
   { label: "Done", value: NodeStatus.Done}
 ]
 
-const DATE_FORMAT = 'YYYY-MM-DD';
+const DATE_FORMAT = 'YYYY-MM-DD HH:mm';
 const DEFAULT_NAME = 'Unnamed todo'
 
 interface ToDoNodeEditProps {
@@ -112,7 +112,7 @@ const ToDoNodeDateEdit: FC<ToDoNodeDateEditProps> = ({ item, trip, onUpdate }: T
   };
 
   return (
-    <DatePicker className="edit-todo-dates" defaultValue={item.Date ? moment(item.Date) : undefined}
+    <DatePicker showTime className="edit-todo-dates" defaultValue={item.Date ? moment(item.Date) : undefined}
      bordered={false} placeholder={DATE_FORMAT} onChange={onChange} 
      disabledDate={d => !d || d.isAfter(trip.EndDate) || d.isSameOrBefore(trip.StartDate) }/>
   );
