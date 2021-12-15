@@ -43,7 +43,8 @@ const TripDescriptionForm: FC<TripDesctiprionFormProps> = ({ trip, onSubmit }: T
         <Input.TextArea/>
       </Form.Item>
       <Form.Item name="dates" label="Dates">
-        <RangePicker format={dateFormat}/>
+        <RangePicker disabledDate={d => !d || d.isSameOrBefore(new Date().toISOString().slice(0, 10)) }
+         format={dateFormat}/>
       </Form.Item>
       <Form.Item>
         <Row>

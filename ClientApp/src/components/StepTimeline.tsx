@@ -1,6 +1,6 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useRef, useState } from 'react';
 import moment from 'moment';
-import { Timeline, Modal, Input, DatePicker, Button, Radio } from 'antd';
+import { Timeline, Modal, Input, DatePicker, Button, Radio, Row } from 'antd';
 
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
@@ -27,9 +27,10 @@ interface ToDoNodeEditProps {
   onRemoveClicked: (id: string) => void;
   onStatusChanged: (id: string, status: NodeStatus) => void;
   onUpdate: (id: string, model: ToDoNodeBaseModel) => void;
+  counter: number;
 }
 
-const ToDoNodeEdit: FC<ToDoNodeEditProps> = ({ item, onRemoveClicked, onStatusChanged, onUpdate }: ToDoNodeEditProps) => {
+const ToDoNodeEdit: FC<ToDoNodeEditProps> = ({ item, onRemoveClicked, onStatusChanged, onUpdate, counter }: ToDoNodeEditProps) => {
   const onNameChange = (e: any) => {
     item.Name = e.target.value;
     onUpdate(item.Id, item as ToDoNodeBaseModel);
@@ -52,11 +53,24 @@ const ToDoNodeEdit: FC<ToDoNodeEditProps> = ({ item, onRemoveClicked, onStatusCh
       },
     });
   }
-
+  
   return (
     <div>
-      <Input defaultValue={item.Name} bordered={false} placeholder='Name...' onBlur={onNameChange}/>
-      <Input.TextArea defaultValue={item.Description} bordered={false} placeholder='Description...' onBlur={onDescriptionChange}/>
+      {(counter % 2 === 0) ?
+        <div className="edit-todo-text">
+          <Input style={{textAlign: "right"}} defaultValue={item.Name} bordered={false}
+          placeholder='Name...' onBlur={onNameChange}/>
+          <Input.TextArea style={{textAlign: "right"}} defaultValue={item.Description} bordered={false} 
+          placeholder='Description...' onBlur={onDescriptionChange}/>
+        </div>
+      :
+        <div className="edit-todo-text">
+          <Input  defaultValue={item.Name} bordered={false}
+          placeholder='Name...' onBlur={onNameChange}/>
+          <Input.TextArea defaultValue={item.Description} bordered={false} 
+          placeholder='Description...' onBlur={onDescriptionChange}/>
+        </div>
+      } 
       <Radio.Group
         options={options}
         onChange={e => onStatusChanged(item.Id, e.target.value)}
@@ -77,7 +91,7 @@ interface ToDoNodeViewProps {
 const ToDoNodeView: FC<ToDoNodeViewProps> = ({ item, onStatusChanged }: ToDoNodeViewProps) => {
   return (
     <div>
-      <h1>{item.Name ? item.Name : DEFAULT_NAME}</h1>
+      <h3>{item.Name ? item.Name : DEFAULT_NAME}</h3>
       <p>{item.Description}</p>
       <Radio.Group
         options={options}
@@ -104,7 +118,8 @@ const ToDoNodeDateEdit: FC<ToDoNodeDateEditProps> = ({ item, onUpdate }: ToDoNod
   };
 
   return (
-    <DatePicker defaultValue={item.Date ? moment(item.Date) : undefined} bordered={false} placeholder={DATE_FORMAT} onChange={onChange}/>
+    <DatePicker className="edit-todo-dates" defaultValue={item.Date ? moment(item.Date) : undefined}
+     bordered={false} placeholder={DATE_FORMAT} onChange={onChange} />
   );
 }
 
@@ -119,20 +134,27 @@ interface StepTimelineProps {
 
 const StepTimeline: FC<StepTimelineProps> = ({ items, type, onAddClicked, onRemoveClicked, onStatusChanged, onUpdate }: StepTimelineProps) => {
   const [isEditing, setEditing] = useState(false);
+  const countRef = useRef(0);
 
   return (
     <>
       {isEditing ?
-        <Button onClick={() => setEditing(false)}>Done</Button>
+        <Row justify="center"> 
+          <Button className="todo-button done" onClick={() => setEditing(false)}>Done</Button>
+        </Row>
         :
-        <Button onClick={() => setEditing(true)}>Edit</Button>
+        <Row justify="center">
+          <Button className="todo-button edit" onClick={() => setEditing(true)}>Edit</Button>
+        </Row>
       }
       <Timeline mode="alternate">
         {items.map(item => {
+          countRef.current++;
           return (
             isEditing ?
               <Timeline.Item color={TimelineColorType[type]} label={<ToDoNodeDateEdit item={item} onUpdate={onUpdate}/>}>
-                <ToDoNodeEdit item={item} onRemoveClicked={onRemoveClicked} onStatusChanged={onStatusChanged} onUpdate={onUpdate}/>
+                <ToDoNodeEdit item={item} onRemoveClicked={onRemoveClicked} 
+                onStatusChanged={onStatusChanged} onUpdate={onUpdate} counter={countRef.current} />
               </Timeline.Item>
               :
               <Timeline.Item color={TimelineColorType[type]} label={item.Date ? moment(item.Date).format(DATE_FORMAT) : undefined}>
@@ -141,8 +163,8 @@ const StepTimeline: FC<StepTimelineProps> = ({ items, type, onAddClicked, onRemo
           );
         })}
         <Timeline.Item
-          color="green"
-          dot={<PlusCircleOutlined style={{ fontSize: '30px' }}
+          className="add-todo-button"
+          dot={<PlusCircleOutlined
             onClick={() => {
               onAddClicked();
               setEditing(true);
