@@ -15,9 +15,10 @@ interface StepsToDoProps {
   onAddToDoNode: (toDoNode: ToDoNodeBaseModel) => void;
   onRemoveToDoNode: (id: string) => void;
   onToDoNodeStatusChange: (id: string, status: NodeStatus) => void;
+  onToDoNodeUpdate: (id: string, model: ToDoNodeBaseModel) => void;
 }
 
-const StepsToDo: FC<StepsToDoProps> = ({ items, onAddToDoNode, onRemoveToDoNode, onToDoNodeStatusChange }: StepsToDoProps) => {
+const StepsToDo: FC<StepsToDoProps> = ({ items, onAddToDoNode, onRemoveToDoNode, onToDoNodeStatusChange, onToDoNodeUpdate }: StepsToDoProps) => {
   const [ current, setCurrent ] = React.useState(NodeType.Before);
 
   const onChange = (current: any) => {
@@ -44,10 +45,11 @@ const StepsToDo: FC<StepsToDoProps> = ({ items, onAddToDoNode, onRemoveToDoNode,
       <div className='steps-content'>
         <StepTimeline
           items={items.filter(item => item.Type === current)}
-          color={TimelineColorType[current]}
+          type={current}
           onAddClicked={onAddClicked}
           onRemoveClicked={onRemoveToDoNode}
-          onStatusChanged={onToDoNodeStatusChange}/>
+          onStatusChanged={onToDoNodeStatusChange}
+          onUpdate={onToDoNodeUpdate}/>
       </div>
     </>
   );

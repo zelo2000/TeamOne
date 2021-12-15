@@ -91,6 +91,17 @@ const Trip: FC = () => {
       });
   };
 
+  const onToDoNodeUpdate = (id: string, model: ToDoNodeBaseModel): void => {
+    ToDoService.save(id, model)
+      .then(() => {
+        console.log("success");
+        getToDoNodes();
+      })
+      .catch((e: Error) => {
+        console.log(e);
+      });
+  };
+
   return (
     <Row justify="center" className="trip-content">
       <Col xs={22} sm={18} md={14} lg={10}>
@@ -102,6 +113,7 @@ const Trip: FC = () => {
           onAddToDoNode={onAddToDoNode}
           onRemoveToDoNode={onRemoveToDoNode}
           onToDoNodeStatusChange={onToDoNodeStatusChange}
+          onToDoNodeUpdate={onToDoNodeUpdate}
         />
       </Col>
     </Row>
