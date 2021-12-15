@@ -4,7 +4,6 @@ import { useParams } from 'react-router-dom';
 
 import TripDescriptionForm from '../components/TripDescriptionForm';
 import StepsToDo from "../components/StepsToDo";
-import { TimelineColorType } from '../models/TimelineColorType';
 import { TripBaseModel } from '../models/TripBaseModel';
 import { ItemToTakeModel } from '../models/ItemToTakeModel';
 import TripService from '../services/TripService';

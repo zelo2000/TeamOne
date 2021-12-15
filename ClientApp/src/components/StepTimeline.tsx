@@ -1,14 +1,15 @@
 import React, { FC, useState } from 'react';
-import { Timeline, Modal, Input, DatePicker, Button, Radio } from 'antd';
 import moment from 'moment';
+import { Timeline, Modal, Input, DatePicker, Button, Radio } from 'antd';
+
+import { PlusCircleOutlined } from '@ant-design/icons';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
 
 import { ToDoNodeModel } from '../models/ToDoNodeModel';
 import { ToDoNodeBaseModel } from '../models/ToDoNodeBaseModel';
-import { PlusCircleOutlined } from '@ant-design/icons';
 import { NodeStatus } from '../models/NodeStatus';
 import { NodeType } from '../models/NodeType';
 import { TimelineColorType } from '../models/TimelineColorType';
-import { ExclamationCircleOutlined } from '@ant-design/icons';
 
 const { confirm } = Modal;
 
@@ -17,6 +18,9 @@ const options = [
   { label: "In Progress", value: NodeStatus.InProgress},
   { label: "Done", value: NodeStatus.Done}
 ]
+
+const DATE_FORMAT = 'YYYY-MM-DD';
+const DEFAULT_NAME = 'Unnamed todo'
 
 interface ToDoNodeEditProps {
   item: ToDoNodeModel;
@@ -42,7 +46,7 @@ const ToDoNodeEdit: FC<ToDoNodeEditProps> = ({ item, onRemoveClicked, onStatusCh
       closable: true,
       maskClosable: true,
       icon: <ExclamationCircleOutlined />,
-      content: name ? name: "Next todo",
+      content: name ? name: DEFAULT_NAME,
       onOk() {
         onRemoveClicked(id);
       },
@@ -73,7 +77,7 @@ interface ToDoNodeViewProps {
 const ToDoNodeView: FC<ToDoNodeViewProps> = ({ item, onStatusChanged }: ToDoNodeViewProps) => {
   return (
     <div>
-      <h1>{item.Name}</h1>
+      <h1>{item.Name ? item.Name : DEFAULT_NAME}</h1>
       <p>{item.Description}</p>
       <Radio.Group
         options={options}
@@ -95,12 +99,12 @@ const ToDoNodeDateEdit: FC<ToDoNodeDateEditProps> = ({ item, onUpdate }: ToDoNod
   const onChange = (date: moment.Moment | null, dateString: string) => {
     if (moment(item.Date) === date)
       return;
-    item.Date = date?.format('YYYY-MM-DD');
+    item.Date = date?.format(DATE_FORMAT);
     onUpdate(item.Id, item as ToDoNodeBaseModel);
   };
 
   return (
-    <DatePicker defaultValue={item.Date ? moment(item.Date) : undefined} bordered={false} placeholder='YYYY-MM-DD' onChange={onChange}/>
+    <DatePicker defaultValue={item.Date ? moment(item.Date) : undefined} bordered={false} placeholder={DATE_FORMAT} onChange={onChange}/>
   );
 }
 
@@ -131,7 +135,7 @@ const StepTimeline: FC<StepTimelineProps> = ({ items, type, onAddClicked, onRemo
                 <ToDoNodeEdit item={item} onRemoveClicked={onRemoveClicked} onStatusChanged={onStatusChanged} onUpdate={onUpdate}/>
               </Timeline.Item>
               :
-              <Timeline.Item color={TimelineColorType[type]} label={item.Date ? moment(item.Date).format("YYYY-MM-DD") : undefined}>
+              <Timeline.Item color={TimelineColorType[type]} label={item.Date ? moment(item.Date).format(DATE_FORMAT) : undefined}>
                 <ToDoNodeView item={item} onStatusChanged={onStatusChanged}/>
               </Timeline.Item>
           );

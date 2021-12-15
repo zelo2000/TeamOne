@@ -2,7 +2,6 @@ import { Steps } from 'antd';
 import React, { FC } from 'react';
 
 import StepTimeline from './StepTimeline';
-import { TimelineColorType } from '../models/TimelineColorType';
 import { NodeType } from '../models/NodeType';
 import { ToDoNodeModel } from '../models/ToDoNodeModel';
 import { ToDoNodeBaseModel } from '../models/ToDoNodeBaseModel';
