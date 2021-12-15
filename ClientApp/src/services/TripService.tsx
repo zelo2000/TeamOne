@@ -18,11 +18,16 @@ const create = async (trip: TripBaseModel): Promise<void> => {
     return await instanceApi.post('/trip', trip);
 };
 
+const remove = async (id: string): Promise<void> => {
+    return await instanceApi.delete(`/trip/${id}`);
+};
+
 const TripService = {
     getByUserId,
     getById,
     save,
-    create
+    create,
+    remove
 };
 
 export default TripService;

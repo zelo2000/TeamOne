@@ -104,10 +104,10 @@ const Trip: FC = () => {
 
   return (
     <Row justify="center" className="trip-content">
-      <Col xs={22} sm={18} md={14} lg={10}>
+      <Col xs={22} sm={18} md={14} lg={10} className="trip-form-container">
         {trip ? <TripDescriptionForm trip={trip as TripBaseModel} onSubmit={onTripFormSubmit}/> : <></>}
       </Col>
-      <Col xs={24} sm={22} md={20} lg={18}>
+      <Col xs={24} sm={22} md={20} lg={18} className="todo-container">
         <StepsToDo
           items={toDoNodes}
           onAddToDoNode={onAddToDoNode}

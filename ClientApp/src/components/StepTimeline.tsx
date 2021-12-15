@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import { Timeline, Input, DatePicker, Button, Radio } from 'antd';
+import { Timeline, Modal, Input, DatePicker, Button, Radio } from 'antd';
 import moment from 'moment';
 
 import { ToDoNodeModel } from '../models/ToDoNodeModel';
@@ -8,6 +8,9 @@ import { PlusCircleOutlined } from '@ant-design/icons';
 import { NodeStatus } from '../models/NodeStatus';
 import { NodeType } from '../models/NodeType';
 import { TimelineColorType } from '../models/TimelineColorType';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
+
+const { confirm } = Modal;
 
 const options = [
   { label: "To Do", value: NodeStatus.ToDo},
@@ -33,6 +36,19 @@ const ToDoNodeEdit: FC<ToDoNodeEditProps> = ({ item, onRemoveClicked, onStatusCh
     onUpdate(item.Id, item as ToDoNodeBaseModel);
   }
 
+  const showConfirm = (id: string, name?: string) => {
+    confirm({
+      title: 'Do you want to delete this todo?',
+      closable: true,
+      maskClosable: true,
+      icon: <ExclamationCircleOutlined />,
+      content: name ? name: "Next todo",
+      onOk() {
+        onRemoveClicked(id);
+      },
+    });
+  }
+
   return (
     <div>
       <Input defaultValue={item.Name} bordered={false} placeholder='Name...' onBlur={onNameChange}/>
@@ -44,7 +60,7 @@ const ToDoNodeEdit: FC<ToDoNodeEditProps> = ({ item, onRemoveClicked, onStatusCh
         optionType='button'
         buttonStyle='solid'
       />
-      <Button onClick={() => onRemoveClicked(item.Id)}>Remove</Button>
+      <Button type="primary" danger onClick={() => showConfirm(item.Id, item.Name)}>Remove</Button>
     </div>
   );
 }
@@ -122,7 +138,7 @@ const StepTimeline: FC<StepTimelineProps> = ({ items, type, onAddClicked, onRemo
         })}
         <Timeline.Item
           color="green"
-          dot={<PlusCircleOutlined style={{ fontSize: '36px' }}
+          dot={<PlusCircleOutlined style={{ fontSize: '30px' }}
             onClick={() => {
               onAddClicked();
               setEditing(true);

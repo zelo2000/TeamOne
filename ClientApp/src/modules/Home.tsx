@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Card, Row, Col, Typography, Button, Divider  } from 'antd';
+import { Card, Row, Col, Typography, Button } from 'antd';
 import TripService from '../services/TripService';
 import { TripModel } from '../models/TripModel';
 import { TripStatus } from '../models/TripStatus';
@@ -37,6 +37,17 @@ const Home: FC = () => {
       });
   };
   
+  const deleteTrip = (TripId: string) => {
+    TripService.remove(TripId)
+    .then(() => {
+      console.log("success");
+      loadTrips(userId);
+    })
+    .catch((e: Error) => {
+      console.log(e);
+    });
+  };
+  
   return (
     <>
       <Row gutter={[0, 12]} justify="center" className="trip-content">
@@ -44,7 +55,8 @@ const Home: FC = () => {
             <Title level={3} underline>In progress</Title>
             <div className="site-card-wrapper">
               <Row gutter={[16, 16]}> 
-                <TripsCardList trips={trips.filter(trip => trip.Status === TripStatus.InProgress)}/>
+                <TripsCardList trips={trips.filter(trip => trip.Status === TripStatus.InProgress)} 
+                onDelete={deleteTrip}/>
               </Row>
             </div>
           </Col>
@@ -52,7 +64,8 @@ const Home: FC = () => {
             <Title level={3} underline>Planned</Title>
             <div className="site-card-wrapper">
               <Row gutter={[16, 16]}> 
-                <TripsCardList trips={trips.filter(trip => trip.Status === TripStatus.Planned)}/>
+                <TripsCardList trips={trips.filter(trip => trip.Status === TripStatus.Planned)} 
+                onDelete={deleteTrip}/>
                 <Col xs={12} sm={8} md={8} lg={6}>
                 <Card 
                   bordered={false} 
@@ -74,7 +87,8 @@ const Home: FC = () => {
             <Title level={3} underline>Finished</Title>
             <div className="site-card-wrapper">
               <Row gutter={[16, 16]}> 
-                <TripsCardList trips={trips.filter(trip => trip.Status === TripStatus.Closed)}/>
+                <TripsCardList trips={trips.filter(trip => trip.Status === TripStatus.Closed)} 
+                onDelete={deleteTrip}/>
               </Row>
             </div>
           </Col>

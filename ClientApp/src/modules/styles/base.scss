@@ -81,15 +81,24 @@ $header-font: 0.9375rem;
 
 .trip-content {
   width: 100%;
+  
+  .trip-form-container{
+    height: 20rem;
+    margin-bottom: 3rem;
 
-  .trip-form {
-    height: 100%;
+    .trip-form {
+      height: 100%;
 
-    .trip-button { 
-      button[type=submit] {
-        width: 100%;
+      .trip-button { 
+        button[type=submit] {
+          width: 100%;
+        }
       }
     }
+  }
+
+  .todo-container {
+    padding-top: 3rem;
   }
 }
 
@@ -110,4 +119,8 @@ $header-font: 0.9375rem;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+.delete-trip-button {
+  padding: 10px;
 }

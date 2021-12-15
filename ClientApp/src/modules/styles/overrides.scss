@@ -15,7 +15,7 @@ $header-font: 0.9375rem;
   font-size: $header-font;
 }
 
-.ant-timeline.ant-timeline-alternate .ant-timeline-item-head {
+.ant-timeline.ant-timeline-label .ant-timeline-item-head {
   margin-left: -7px;
 }
 
@@ -24,10 +24,33 @@ $header-font: 0.9375rem;
   height: 1rem;
 }
 
-.ant-timeline.ant-timeline-alternate .ant-timeline-item-right .ant-timeline-item-content {
-  width: calc(50% - 23px);
+.ant-timeline.ant-timeline-alternate .ant-timeline-item-right .ant-timeline-item-content,
+ .ant-timeline.ant-timeline-right .ant-timeline-item-right .ant-timeline-item-content,
+  .ant-timeline.ant-timeline-label .ant-timeline-item-right .ant-timeline-item-content {
+  width: calc(50% - 25px);
+}
+
+.ant-timeline.ant-timeline-alternate .ant-timeline-item-left .ant-timeline-item-content,
+ .ant-timeline.ant-timeline-right .ant-timeline-item-left .ant-timeline-item-content,
+  .ant-timeline.ant-timeline-label .ant-timeline-item-left .ant-timeline-item-content {
+  left: calc(50% + 0px);
+}
+
+.ant-timeline.ant-timeline-label .ant-timeline-item-right .ant-timeline-item-label {
+  left: calc(50% + 25px);
+}
+
+.ant-timeline.ant-timeline-label .ant-timeline-item-left .ant-timeline-item-label {
+  width: calc(50% - 25px);
+}
+
+.ant-timeline-item-head-custom {
+  background-color: transparent;
 }
 
 .ant-card-hoverable {
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
