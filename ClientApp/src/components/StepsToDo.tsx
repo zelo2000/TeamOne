@@ -6,18 +6,20 @@ import { NodeType } from '../models/NodeType';
 import { ToDoNodeModel } from '../models/ToDoNodeModel';
 import { ToDoNodeBaseModel } from '../models/ToDoNodeBaseModel';
 import { NodeStatus } from '../models/NodeStatus';
+import { TripBaseModel } from '../models/TripBaseModel';
 
 const { Step } = Steps;
 
 interface StepsToDoProps {
   items: ToDoNodeModel[];
+  trip: TripBaseModel;
   onAddToDoNode: (toDoNode: ToDoNodeBaseModel) => void;
   onRemoveToDoNode: (id: string) => void;
   onToDoNodeStatusChange: (id: string, status: NodeStatus) => void;
   onToDoNodeUpdate: (id: string, model: ToDoNodeBaseModel) => void;
 }
 
-const StepsToDo: FC<StepsToDoProps> = ({ items, onAddToDoNode, onRemoveToDoNode, onToDoNodeStatusChange, onToDoNodeUpdate }: StepsToDoProps) => {
+const StepsToDo: FC<StepsToDoProps> = ({ items, trip, onAddToDoNode, onRemoveToDoNode, onToDoNodeStatusChange, onToDoNodeUpdate }: StepsToDoProps) => {
   const [ current, setCurrent ] = React.useState(NodeType.Before);
 
   const onChange = (current: any) => {
@@ -44,6 +46,7 @@ const StepsToDo: FC<StepsToDoProps> = ({ items, onAddToDoNode, onRemoveToDoNode,
       <div className='steps-content'>
         <StepTimeline
           items={items.filter(item => item.Type === current)}
+          trip={trip}
           type={current}
           onAddClicked={onAddClicked}
           onRemoveClicked={onRemoveToDoNode}
