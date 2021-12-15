@@ -136,6 +136,12 @@ const StepTimeline: FC<StepTimelineProps> = ({ items, type, onAddClicked, onRemo
   const [isEditing, setEditing] = useState(false);
   const countRef = useRef(0);
 
+  const sortItems = (items: ToDoNodeModel[]) => {
+    const itemsWithDate = items.filter(item => item.Date !== null).sort((a, b) => moment(a.Date) > moment(b.Date) ? 1 : -1);
+    const itemsWithoutDate = items.filter(item => item.Date === null);
+    return itemsWithDate.concat(itemsWithoutDate);
+  }
+
   return (
     <>
       {isEditing ?
@@ -148,16 +154,16 @@ const StepTimeline: FC<StepTimelineProps> = ({ items, type, onAddClicked, onRemo
         </Row>
       }
       <Timeline mode="alternate">
-        {items.map(item => {
+        {sortItems(items).map(item => {
           countRef.current++;
           return (
             isEditing ?
-              <Timeline.Item color={TimelineColorType[type]} label={<ToDoNodeDateEdit item={item} onUpdate={onUpdate}/>}>
+              <Timeline.Item key={item.Id} color={TimelineColorType[type]} label={<ToDoNodeDateEdit item={item} onUpdate={onUpdate}/>}>
                 <ToDoNodeEdit item={item} onRemoveClicked={onRemoveClicked} 
                 onStatusChanged={onStatusChanged} onUpdate={onUpdate} counter={countRef.current} />
               </Timeline.Item>
               :
-              <Timeline.Item color={TimelineColorType[type]} label={item.Date ? moment(item.Date).format(DATE_FORMAT) : undefined}>
+              <Timeline.Item key={item.Id} color={TimelineColorType[type]} label={item.Date ? moment(item.Date).format(DATE_FORMAT) : undefined}>
                 <ToDoNodeView item={item} onStatusChanged={onStatusChanged}/>
               </Timeline.Item>
           );
