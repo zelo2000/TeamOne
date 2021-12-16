@@ -56,21 +56,12 @@ const ToDoNodeEdit: FC<ToDoNodeEditProps> = ({ item, onRemoveClicked, onStatusCh
   
   return (
     <div>
-      {(counter % 2 === 0) ?
-        <div className="edit-todo-text">
-          <Input style={{textAlign: "right"}} defaultValue={item.Name} bordered={false}
-          placeholder='Name...' onBlur={onNameChange}/>
-          <Input.TextArea style={{textAlign: "right"}} defaultValue={item.Description} bordered={false} 
-          placeholder='Description...' onBlur={onDescriptionChange}/>
-        </div>
-      :
-        <div className="edit-todo-text">
-          <Input  defaultValue={item.Name} bordered={false}
-          placeholder='Name...' onBlur={onNameChange}/>
-          <Input.TextArea defaultValue={item.Description} bordered={false} 
-          placeholder='Description...' onBlur={onDescriptionChange}/>
-        </div>
-      } 
+      <div className="edit-todo-text">
+        <Input style={(counter % 2 === 0) ? {textAlign: "right"} : {textAlign: "left"}} defaultValue={item.Name} bordered={false}
+        placeholder='Name...' onBlur={onNameChange}/>
+        <Input.TextArea style={{textAlign: "right"}} defaultValue={item.Description} bordered={false} 
+        placeholder='Description...' onBlur={onDescriptionChange}/>
+      </div>
       <Radio.Group
         options={options}
         onChange={e => onStatusChanged(item.Id, e.target.value)}
@@ -134,7 +125,6 @@ interface StepTimelineProps {
 
 const StepTimeline: FC<StepTimelineProps> = ({ items, type, onAddClicked, onRemoveClicked, onStatusChanged, onUpdate }: StepTimelineProps) => {
   const [isEditing, setEditing] = useState(false);
-  const countRef = useRef(0);
 
   const sortItems = (items: ToDoNodeModel[]) => {
     const itemsWithDate = items.filter(item => item.Date !== null).sort((a, b) => moment(a.Date) > moment(b.Date) ? 1 : -1);
@@ -154,13 +144,12 @@ const StepTimeline: FC<StepTimelineProps> = ({ items, type, onAddClicked, onRemo
         </Row>
       }
       <Timeline mode="alternate">
-        {sortItems(items).map(item => {
-          countRef.current++;
+        {sortItems(items).map((item, index) => {
           return (
             isEditing ?
               <Timeline.Item key={item.Id} color={TimelineColorType[type]} label={<ToDoNodeDateEdit item={item} onUpdate={onUpdate}/>}>
                 <ToDoNodeEdit item={item} onRemoveClicked={onRemoveClicked} 
-                onStatusChanged={onStatusChanged} onUpdate={onUpdate} counter={countRef.current} />
+                onStatusChanged={onStatusChanged} onUpdate={onUpdate} counter={index+1} />
               </Timeline.Item>
               :
               <Timeline.Item key={item.Id} color={TimelineColorType[type]} label={item.Date ? moment(item.Date).format(DATE_FORMAT) : undefined}>
