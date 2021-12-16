@@ -12,7 +12,7 @@ const Home: FC = () => {
   const [trips, setTrips] = useState<TripModel[]>([]);
   const authData = GetAuthData();
   const userId = authData?.id === undefined ? "" : authData.id;
-  
+
   const loadTrips = useCallback((userId: string) => {
     TripService.getByUserId(userId)
       .then((response: { data: TripModel[] }) => {
@@ -26,7 +26,7 @@ const Home: FC = () => {
 
   useEffect(() => {
     loadTrips(userId);
-  }, []);
+  }, [loadTrips, userId]);
 
   const createTrip = useCallback(() => {
     TripService.create({ userId: userId })

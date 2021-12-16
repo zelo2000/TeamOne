@@ -31,7 +31,7 @@ namespace GS.WebApi
         {
             services.AddCors(o => o.AddPolicy("Default", builder =>
             {
-                builder.WithOrigins("http://localhost:3000")
+                builder.AllowAnyOrigin()
                     .AllowAnyMethod()
                     .AllowAnyHeader();
             }));

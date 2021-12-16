@@ -1,4 +1,4 @@
-import React, { Component, FC, FunctionComponent } from "react";
+import React, { FC } from "react";
 import { Redirect, Route } from "react-router-dom";
 import { GetAuthData } from "../utils/storage-helper";
 
@@ -17,7 +17,7 @@ const ProtectedRoute: FC<IProtectedRouteProps> = ({ children, exact, path, ...re
       exact
       path={path}
       render={() =>
-        isAuthenticated ? children : <Redirect to="/login" />
+        isAuthenticated ? children : <Redirect to="/" />
       }
     />
   );
