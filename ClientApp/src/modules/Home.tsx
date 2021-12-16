@@ -1,44 +1,45 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState, useCallback } from 'react';
 import { Card, Row, Col, Typography, Button } from 'antd';
 import TripService from '../services/TripService';
 import { TripModel } from '../models/TripModel';
 import { TripStatus } from '../models/TripStatus';
 import TripsCardList from "../components/TripsCardList";
+import { GetAuthData } from '../utils/storage-helper';
 
 const { Title } = Typography;
 
 const Home: FC = () => {
   const [trips, setTrips] = useState<TripModel[]>([]);
-
-  const userId = "a3ce5e17-35eb-4c1d-a6fe-565ddd67316c";
-
-  const loadTrips = (userId: string) => {
+  const authData = GetAuthData();
+  const userId = authData?.id === undefined ? "" : authData.id;
+  
+  const loadTrips = useCallback((userId: string) => {
     TripService.getByUserId(userId)
-      .then((response: any) => {
+      .then((response: { data: TripModel[] }) => {
         setTrips(response.data);
         console.log(response.data);
       })
       .catch((e: Error) => {
         console.log(e);
       });
-  }
+  }, [setTrips]);
 
   useEffect(() => {
     loadTrips(userId);
   }, []);
 
-  const createTrip = () => {
-    TripService.create({ UserId: userId })
+  const createTrip = useCallback(() => {
+    TripService.create({ userId: userId })
       .then(() => {
         loadTrips(userId);
       })
       .catch((e: Error) => {
         console.log(e);
       });
-  };
+  }, [loadTrips, userId]);
 
-  const deleteTrip = (TripId: string) => {
-    TripService.remove(TripId)
+  const deleteTrip = useCallback((tripId: string) => {
+    TripService.remove(tripId)
       .then(() => {
         console.log("success");
         loadTrips(userId);
@@ -46,7 +47,7 @@ const Home: FC = () => {
       .catch((e: Error) => {
         console.log(e);
       });
-  };
+  }, [loadTrips, userId]);
 
   return (
     <>
@@ -55,7 +56,7 @@ const Home: FC = () => {
           <Title level={3} underline>In progress</Title>
           <div className="site-card-wrapper">
             <Row gutter={[16, 16]}>
-              <TripsCardList trips={trips.filter(trip => trip.Status === TripStatus.InProgress)}
+              <TripsCardList trips={trips.filter(trip => trip.status === TripStatus.InProgress)}
                 onDelete={deleteTrip} />
             </Row>
           </div>
@@ -64,7 +65,7 @@ const Home: FC = () => {
           <Title level={3} underline>Planned</Title>
           <div className="site-card-wrapper">
             <Row gutter={[16, 16]}>
-              <TripsCardList trips={trips.filter(trip => trip.Status === TripStatus.Planned)}
+              <TripsCardList trips={trips.filter(trip => trip.status === TripStatus.Planned)}
                 onDelete={deleteTrip} />
               <Col xs={12} sm={8} md={8} lg={6}>
                 <Card
@@ -87,7 +88,7 @@ const Home: FC = () => {
           <Title level={3} underline>Finished</Title>
           <div className="site-card-wrapper">
             <Row gutter={[16, 16]}>
-              <TripsCardList trips={trips.filter(trip => trip.Status === TripStatus.Closed)}
+              <TripsCardList trips={trips.filter(trip => trip.status === TripStatus.Closed)}
                 onDelete={deleteTrip} />
             </Row>
           </div>

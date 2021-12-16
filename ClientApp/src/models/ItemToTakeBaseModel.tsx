@@ -1,3 +1,3 @@
 export interface ItemToTakeBaseModel {
-  Name?: string;
+  name?: string;
 }

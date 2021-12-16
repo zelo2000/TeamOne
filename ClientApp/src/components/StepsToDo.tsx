@@ -28,7 +28,7 @@ const StepsToDo: FC<StepsToDoProps> = ({ items, trip, onAddToDoNode, onRemoveToD
   };
 
   const onAddClicked = () => {
-    onAddToDoNode({Type: current});
+    onAddToDoNode({type: current});
   };
 
   return (
@@ -45,7 +45,7 @@ const StepsToDo: FC<StepsToDoProps> = ({ items, trip, onAddToDoNode, onRemoveToD
       </Steps>
       <div className='steps-content'>
         <StepTimeline
-          items={items.filter(item => item.Type === current)}
+          items={items.filter(item => item.type === current)}
           trip={trip}
           type={current}
           onAddClicked={onAddClicked}

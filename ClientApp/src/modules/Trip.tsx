@@ -107,7 +107,6 @@ const Trip: FC = () => {
         {trip ? <TripDescriptionForm trip={trip as TripBaseModel} onSubmit={onTripFormSubmit}/> : <></>}
       </Col>
       <Col xs={24} sm={22} md={20} lg={18} className="todo-container">
-
         <StepsToDo
           items={toDoNodes}
           trip={trip as TripBaseModel}

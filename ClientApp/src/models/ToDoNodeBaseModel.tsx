@@ -1,8 +1,8 @@
 import { NodeType } from "./NodeType";
 
 export interface ToDoNodeBaseModel {
-    Name?: string;
-    Description?: string;
-    Type: NodeType;
-    Date?: string;
+    name?: string;
+    description?: string;
+    type: NodeType;
+    date?: string;
 }

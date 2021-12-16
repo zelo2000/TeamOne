@@ -34,13 +34,13 @@ interface ToDoNodeEditProps {
 const ToDoNodeEdit: FC<ToDoNodeEditProps> = ({ item, counter, onRemoveClicked, onStatusChanged, onUpdate }: ToDoNodeEditProps) => {
 
   const onNameChange = (e: any) => {
-    item.Name = e.target.value;
-    onUpdate(item.Id, item as ToDoNodeBaseModel);
+    item.name = e.target.value;
+    onUpdate(item.id, item as ToDoNodeBaseModel);
   }
 
   const onDescriptionChange = (e: any) => {
-    item.Description = e.target.value;
-    onUpdate(item.Id, item as ToDoNodeBaseModel);
+    item.description = e.target.value;
+    onUpdate(item.id, item as ToDoNodeBaseModel);
   }
 
   const showConfirm = (id: string, name?: string) => {
@@ -59,19 +59,19 @@ const ToDoNodeEdit: FC<ToDoNodeEditProps> = ({ item, counter, onRemoveClicked, o
   return (
     <div>
       <div className="edit-todo-text">
-        <Input style={(counter % 2 === 0) ? {textAlign: "right"} : {textAlign: "left"}} defaultValue={item.Name} bordered={false}
+        <Input style={(counter % 2 === 0) ? {textAlign: "right"} : {textAlign: "left"}} defaultValue={item.name} bordered={false}
         placeholder='Name...' onBlur={onNameChange}/>
-        <Input.TextArea style={(counter % 2 === 0) ? {textAlign: "right"} : {textAlign: "left"}} defaultValue={item.Description} bordered={false} 
+        <Input.TextArea style={(counter % 2 === 0) ? {textAlign: "right"} : {textAlign: "left"}} defaultValue={item.description} bordered={false} 
         placeholder='Description...' onBlur={onDescriptionChange}/>
       </div>
       <Radio.Group
         options={options}
-        onChange={e => onStatusChanged(item.Id, e.target.value)}
-        value={item.Status}
+        onChange={e => onStatusChanged(item.id, e.target.value)}
+        value={item.status}
         optionType='button'
         buttonStyle='solid'
       />
-      <Button type="primary" danger onClick={() => showConfirm(item.Id, item.Name)}>Remove</Button>
+      <Button type="primary" danger onClick={() => showConfirm(item.id, item.name)}>Remove</Button>
     </div>
   );
 }
@@ -84,12 +84,12 @@ interface ToDoNodeViewProps {
 const ToDoNodeView: FC<ToDoNodeViewProps> = ({ item, onStatusChanged }: ToDoNodeViewProps) => {
   return (
     <div>
-      <h3>{item.Name ? item.Name : DEFAULT_NAME}</h3>
-      <p>{item.Description}</p>
+      <h3>{item.name ? item.name : DEFAULT_NAME}</h3>
+      <p>{item.description}</p>
       <Radio.Group
         options={options}
-        onChange={e => onStatusChanged(item.Id, e.target.value)}
-        value={item.Status}
+        onChange={e => onStatusChanged(item.id, e.target.value)}
+        value={item.status}
         optionType='button'
         buttonStyle='solid'
       />
@@ -105,16 +105,16 @@ interface ToDoNodeDateEditProps {
 
 const ToDoNodeDateEdit: FC<ToDoNodeDateEditProps> = ({ item, trip, onUpdate }: ToDoNodeDateEditProps) => {
   const onChange = (date: moment.Moment | null, dateString: string) => {
-    if (moment(item.Date) === date)
+    if (moment(item.date) === date)
       return;
-    item.Date = date?.format(DATE_FORMAT);
-    onUpdate(item.Id, item as ToDoNodeBaseModel);
+    item.date = date?.format(DATE_FORMAT);
+    onUpdate(item.id, item as ToDoNodeBaseModel);
   };
 
   return (
-    <DatePicker showTime className="edit-todo-dates" defaultValue={item.Date ? moment(item.Date) : undefined}
+    <DatePicker showTime className="edit-todo-dates" defaultValue={item.date ? moment(item.date) : undefined}
      bordered={false} placeholder={DATE_FORMAT} onChange={onChange} 
-     disabledDate={d => !d || d.isAfter(trip.EndDate) || d.isSameOrBefore(trip.StartDate) }/>
+     disabledDate={d => !d || d.isAfter(trip.endDate) || d.isSameOrBefore(trip.startDate) }/>
   );
 }
 
@@ -132,8 +132,8 @@ const StepTimeline: FC<StepTimelineProps> = ({ items, trip, type, onAddClicked, 
   const [isEditing, setEditing] = useState(false);
 
   const sortItems = (items: ToDoNodeModel[]) => {
-    const itemsWithDate = items.filter(item => item.Date !== null).sort((a, b) => moment(a.Date) > moment(b.Date) ? 1 : -1);
-    const itemsWithoutDate = items.filter(item => item.Date === null);
+    const itemsWithDate = items.filter(item => item.date !== null).sort((a, b) => moment(a.date) > moment(b.date) ? 1 : -1);
+    const itemsWithoutDate = items.filter(item => item.date === null);
     return itemsWithDate.concat(itemsWithoutDate);
   }
 
@@ -152,12 +152,12 @@ const StepTimeline: FC<StepTimelineProps> = ({ items, trip, type, onAddClicked, 
         {sortItems(items).map((item, index) => {
           return (
             isEditing ?
-              <Timeline.Item key={item.Id} color={TimelineColorType[type]} label={<ToDoNodeDateEdit item={item} trip={trip} onUpdate={onUpdate}/>}>
+              <Timeline.Item key={item.id} color={TimelineColorType[type]} label={<ToDoNodeDateEdit item={item} trip={trip} onUpdate={onUpdate}/>}>
                 <ToDoNodeEdit item={item} onRemoveClicked={onRemoveClicked} 
                 onStatusChanged={onStatusChanged} onUpdate={onUpdate} counter={index+1} />
               </Timeline.Item>
               :
-              <Timeline.Item key={item.Id} color={TimelineColorType[type]} label={item.Date ? moment(item.Date).format(DATE_FORMAT) : undefined}>
+              <Timeline.Item key={item.id} color={TimelineColorType[type]} label={item.date ? moment(item.date).format(DATE_FORMAT) : undefined}>
                 <ToDoNodeView item={item} onStatusChanged={onStatusChanged}/>
               </Timeline.Item>
           );

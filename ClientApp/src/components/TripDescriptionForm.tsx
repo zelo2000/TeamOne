@@ -16,11 +16,11 @@ const TripDescriptionForm: FC<TripDesctiprionFormProps> = ({ trip, onSubmit }: T
 
   const onFinish = (values: any) => {
     const tripModel: TripBaseModel = {
-      UserId: trip.UserId,
-      Name: values.name,
-      Description: values.description,
-      StartDate: values.dates[0].format(dateFormat),
-      EndDate: values.dates[1].format(dateFormat)
+      userId: trip.userId,
+      name: values.name,
+      description: values.description,
+      startDate: values.dates[0].format(dateFormat),
+      endDate: values.dates[1].format(dateFormat)
     };
     onSubmit(tripModel);
   };
@@ -30,9 +30,9 @@ const TripDescriptionForm: FC<TripDesctiprionFormProps> = ({ trip, onSubmit }: T
       layout="vertical"
       onFinish={onFinish}
       initialValues={{
-        name: trip.Name,
-        description: trip.Description,
-        dates: (trip.StartDate && trip.EndDate) ? [moment(trip.StartDate), moment(trip.EndDate)] : []
+        name: trip.name,
+        description: trip.description,
+        dates: (trip.startDate && trip.endDate) ? [moment(trip.startDate), moment(trip.endDate)] : []
       }}
       className="trip-form"
     >

@@ -39,25 +39,25 @@ const TripsCardList: FC<CardListProps> = ({ trips, onDelete }: CardListProps) =>
       <>
       {trips.map((trip) => {
           return (
-            <Col key={trip.Id} xs={12} sm={8} md={8} lg={6}>
-              <Link to={`trip/${trip.Id}`}>
+            <Col key={trip.id} xs={12} sm={8} md={8} lg={6}>
+              <Link to={`trip/${trip.id}`}>
                 <Card 
                     bordered={false} 
                     hoverable={true}
                     cover={<div className="trip-img"></div>}
                 >
                     <Meta
-                      title={trip.Name}
+                      title={trip.name}
                       description=
                       {<span className="trip-card-desc">
-                            {isSomeValueDefined(trip.Description)}
+                            {isSomeValueDefined(trip.description)}
                       </span>}
                     />
-                    {(trip.StartDate != null && trip.EndDate != null) ?
-                      moment(isSomeValueDefined(trip.StartDate)).format("MMM Do YY") + " - " +
-                      moment(isSomeValueDefined(trip.EndDate)).format("MMM Do YY") : ""}
+                    {(trip.startDate != null && trip.endDate != null) ?
+                      moment(isSomeValueDefined(trip.startDate)).format("MMM Do YY") + " - " +
+                      moment(isSomeValueDefined(trip.endDate)).format("MMM Do YY") : ""}
                     <Row justify="center" className="delete-trip-button">
-                      <Button type="primary" danger onClick={(e) => showConfirm(e, trip.Description, trip.Id)}>
+                      <Button type="primary" danger onClick={(e) => showConfirm(e, trip.description, trip.id)}>
                         Delete trip
                       </Button>
                     </Row>
