@@ -61,7 +61,7 @@ const ToDoNodeEdit: FC<ToDoNodeEditProps> = ({ item, counter, onRemoveClicked, o
       <div className="edit-todo-text">
         <Input style={(counter % 2 === 0) ? {textAlign: "right"} : {textAlign: "left"}} defaultValue={item.Name} bordered={false}
         placeholder='Name...' onBlur={onNameChange}/>
-        <Input.TextArea style={{textAlign: "right"}} defaultValue={item.Description} bordered={false} 
+        <Input.TextArea style={(counter % 2 === 0) ? {textAlign: "right"} : {textAlign: "left"}} defaultValue={item.Description} bordered={false} 
         placeholder='Description...' onBlur={onDescriptionChange}/>
       </div>
       <Radio.Group
