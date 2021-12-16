@@ -11,8 +11,16 @@ import './styles/base.scss';
 import logo from "../assets/logo.png";
 import ProtectedRoute from '../components/ProtectedRoute';
 import { GetAuthData } from '../utils/storage-helper';
+import { createBrowserHistory } from 'history'
+import ReactGA from 'react-ga';
 
 const { Header, Content } = Layout;
+
+ReactGA.initialize((String)(process.env.REACT_APP_GA_TRACKING_NO))
+const browserHistory = createBrowserHistory()
+browserHistory.listen((location, action) => {
+  ReactGA.pageview(location.pathname + location.search)
+})
 
 const NavBar = () => (
   <Menu className="dropdown-menu-items">
@@ -30,6 +38,7 @@ const App: FC = () => {
     if (authData) {
       setIsLogged(true);
     }
+    ReactGA.pageview(window.location.pathname + window.location.search)
   }, []);
 
   return (
