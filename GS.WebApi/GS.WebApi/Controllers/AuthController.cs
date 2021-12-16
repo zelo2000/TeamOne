@@ -1,6 +1,5 @@
 ﻿using GS.Business.Infrastructure;
 using GS.Domain.Models.User;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
@@ -11,25 +10,60 @@ namespace GS.WebApi.Controllers
     [Route("api/[controller]")]
     public class AuthController : ControllerBase
     {
-        private readonly IAuthService _authService;
+        private readonly IAuthService _autService;
 
-        public AuthController(IAuthService authService)
+        public AuthController(IAuthService autService)
         {
-            _authService = authService;
+            _autService = autService;
         }
 
-        [HttpPost("log-in")]
-        public async Task<ActionResult<LogInResultModel>> LogIn([FromBody] LogInModel model)
+        [HttpPost("ExternalLogin")]
+        public async Task<IActionResult> ExternalLogin([FromBody] ExternalAuthDto externalAuth)
         {
-            var result = await _authService.LogIn(model);
-            return result;
-        }
+            var payload = await _autService.VerifyGoogleToken(externalAuth);
+            if (payload == null)
+            {
+                return BadRequest("Invalid External Authentication.");
+            }
 
-        [HttpPost("log-out")]
-        [Authorize]
-        public async Task<IActionResult> LogOut()
-        {
-            throw new NotImplementedException();
+            var user = await _autService.GetUserByLoginAsync("GOOGLE", payload.Subject);
+            if (user == null)
+            {
+                user = new UserModel
+                {
+                    Id = Guid.NewGuid(),
+                    Email = payload.Email,
+                    Username = payload.Name
+                };
+
+                await _autService.AddUserAsync(user);
+
+                var newLoginModel = new UserLoginModel
+                {
+                    LoginProvider = "GOOGLE",
+                    ProviderDisplayName = "Google",
+                    ProviderKey = payload.Subject,
+                    UserId = user.Id,
+                };
+
+                await _autService.AddUserLoginAsync(newLoginModel);
+            }
+
+            if (user == null)
+            {
+                return BadRequest("Invalid External Authentication.");
+            }
+
+            var token = _autService.GenerateToken(user);
+
+            var responce = new AuthResponseDto
+            {
+                Token = token,
+                Email = user.Email,
+                Id = user.Id
+            };
+
+            return Ok(responce);
         }
     }
 }

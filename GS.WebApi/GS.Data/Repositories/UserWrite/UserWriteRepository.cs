@@ -13,10 +13,16 @@ namespace GS.Data.Repositories.UserWrite
             _dbContext = dbContext;
         }
 
-        public async Task AddUser(User user)
+        public async Task AddUserAsync(User user)
         {
             await _dbContext.Users.AddAsync(user);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task AddUserLoginAsync(UserLogin userLogin)
+        {
+            await _dbContext.UserLogins.AddAsync(userLogin);
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

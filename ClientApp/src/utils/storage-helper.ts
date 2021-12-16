@@ -1,40 +1,21 @@
-import { IWriteTokenModel } from '../types/auth/IWriteTokenModel';
+import { ILogInResponse } from "../models/ILogInResponse";
 
-const WriteToken = (response: IWriteTokenModel) => {
-  if (response.rememberMe) {
-    localStorage.setItem('auth', JSON.stringify({
-      id: response.id,
-      token: response.token,
-      refreshToken: response.refreshToken,
-    }))
-  }
-  else {
-    sessionStorage.setItem('auth', JSON.stringify({
-      id: response.id,
-      token: response.token,
-      refreshToken: response.refreshToken,
-    }))
-  }
+
+const WriteToken = (response: ILogInResponse) => {
+  localStorage.setItem('auth', JSON.stringify({
+    id: response.id,
+    email: response.email,
+    token: response.token,
+  }))
 };
 
-const GetAuthData = (): (IWriteTokenModel | undefined) => {
+const GetAuthData = (): (ILogInResponse | undefined) => {
   let authInfo = localStorage.getItem('auth');
-
-  if (!authInfo) {
-    authInfo = sessionStorage.getItem('auth');
-  }
-
-  let result = authInfo ? JSON.parse(authInfo) as IWriteTokenModel : undefined;
-
-  if (result) {
-    result.rememberMe = !!localStorage.getItem('auth');
-  }
-
+  let result = authInfo ? JSON.parse(authInfo) as ILogInResponse : undefined;
   return result;
 };
 
 const CleanToken = () => {
-  sessionStorage.removeItem('auth');
   localStorage.removeItem('auth');
 };
 

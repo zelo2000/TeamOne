@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Text;
 using System.Threading.Tasks;
@@ -36,8 +37,8 @@ namespace GS.WebApi
             }));
 
             services.Configure<MongoDbSettings>(Configuration.GetSection("MongoDatabaseSettings"));
-            services.Configure<HashGenerationSettings>(Configuration.GetSection("HashGenerationSetting"));
-            services.Configure<AuthSetting>(Configuration.GetSection("AuthSetting"));
+            services.Configure<GoogleAuthSettings>(Configuration.GetSection("GoogleAuthSettings"));
+            services.Configure<JwtSettings>(Configuration.GetSection("JWTSettings"));
 
             services.AddDataModule(Configuration);
             services.AddBusinessModule();
@@ -46,8 +47,7 @@ namespace GS.WebApi
 
             services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
 
-            services.AddControllers()
-               .AddNewtonsoftJson(options => options.UseMemberCasing());
+            services.AddControllers().AddNewtonsoftJson();
 
             services.AddSwaggerGen(c =>
             {
@@ -103,40 +103,26 @@ namespace GS.WebApi
         private void ConfigureAuthentication(IServiceCollection services)
         {
 
-            var key = Encoding.ASCII.GetBytes(Configuration.GetSection("AuthSetting").Get<AuthSetting>().SecretKey);
+            var jwtSettings = Configuration.GetSection("JWTSettings").Get<JwtSettings>();
 
-            services.AddAuthentication(x =>
+            services.AddAuthentication(opt =>
             {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-                .AddJwtBearer(options =>
+                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    options.RequireHttpsMetadata = false;
-                    options.SaveToken = true;
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(key),
-                        ValidateIssuer = false,
-                        ValidateAudience = false
-                    };
-                    options.Events = new JwtBearerEvents
-                    {
-                        OnMessageReceived = context =>
-                        {
-                            var accessToken = context.Request.Query["access_token"];
-                            var path = context.HttpContext.Request.Path;
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
 
-                            if (!string.IsNullOrEmpty(accessToken))
-                            {
-                                context.Token = accessToken;
-                            }
-
-                            return Task.CompletedTask;
-                        }
-                    };
-                });
+                    ValidIssuer = jwtSettings.ValidIssuer,
+                    ValidAudience = jwtSettings.ValidAudience,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SecurityKey))
+                };
+            });
         }
     }
 }

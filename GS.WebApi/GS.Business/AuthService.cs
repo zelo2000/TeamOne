@@ -1,6 +1,8 @@
-﻿using GS.Business.Infrastructure;
+﻿using Google.Apis.Auth;
+using GS.Business.Infrastructure;
+using GS.Business.Mapping;
 using GS.Data.Repositories.UserRead;
-using GS.Domain.Contants;
+using GS.Data.Repositories.UserWrite;
 using GS.Domain.Models.Configuration;
 using GS.Domain.Models.User;
 using Microsoft.Extensions.Options;
@@ -16,42 +18,96 @@ namespace GS.Business
 {
     public class AuthService : IAuthService
     {
-        private readonly IPasswordHashProvider _passwordHashProvider;
+        private readonly JwtSettings _jwtSettings;
+        private readonly GoogleAuthSettings _goolgeSettings;
+        private readonly IUserWriteRepository _userWriteRepository;
         private readonly IUserReadRepository _userReadRepository;
-        private readonly AuthSetting _authSetting;
 
-        public AuthService(IPasswordHashProvider passwordHashProvider, IUserReadRepository userReadRepository, IOptions<AuthSetting> options)
+        public AuthService(IOptions<JwtSettings> jwtOption,
+            IOptions<GoogleAuthSettings> googleOption,
+            IUserReadRepository userReadRepository,
+            IUserWriteRepository userWriteRepository)
         {
-            _passwordHashProvider = passwordHashProvider;
+            _jwtSettings = jwtOption.Value;
+            _goolgeSettings = googleOption.Value;
+            _userWriteRepository = userWriteRepository;
             _userReadRepository = userReadRepository;
-            _authSetting = options.Value;
         }
 
-        public async Task<LogInResultModel> LogIn(LogInModel model)
+        public string GenerateToken(UserModel user)
         {
-            var user = await _userReadRepository.GetByEmailAndPasswordHashAsync(model.Email, _passwordHashProvider.GetPasswordHash(model.Password));
+            var signingCredentials = GetSigningCredentials();
+            var claims = GetClaims(user);
+            var tokenOptions = GenerateTokenOptions(signingCredentials, claims);
+            var token = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
 
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_authSetting.SecretKey);
+            return token;
+        }
 
+        public async Task<GoogleJsonWebSignature.Payload> VerifyGoogleToken(ExternalAuthDto externalAuth)
+        {
+            try
+            {
+                var settings = new GoogleJsonWebSignature.ValidationSettings()
+                {
+                    Audience = new List<string>() { _goolgeSettings.ClientId }
+                };
+
+                var payload = await GoogleJsonWebSignature.ValidateAsync(externalAuth.IdToken, settings);
+                return payload;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public async Task<UserModel> GetUserByLoginAsync(string loginProvider, string providerKey)
+        {
+            var user = await _userReadRepository.GetUserByLoginAsync(loginProvider, providerKey);
+            return user?.ToDomain();
+        }
+
+        public async Task AddUserAsync(UserModel user)
+        {
+            var userEntity = user.ToEntity();
+            await _userWriteRepository.AddUserAsync(userEntity);
+        }
+
+        public async Task AddUserLoginAsync(UserLoginModel userLogin)
+        {
+            var userLoginEntity = userLogin.ToEntity();
+            await _userWriteRepository.AddUserLoginAsync(userLoginEntity);
+        }
+
+        private SigningCredentials GetSigningCredentials()
+        {
+            var key = Encoding.UTF8.GetBytes(_jwtSettings.SecurityKey);
+            var secret = new SymmetricSecurityKey(key);
+
+            return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
+        }
+
+        private List<Claim> GetClaims(UserModel user)
+        {
             var claims = new List<Claim>
             {
-                new Claim(ClaimNames.Id, user.Id.ToString()),
+                new Claim(ClaimTypes.Name, user.Email)
             };
 
-            var expDate = DateTime.UtcNow.AddHours(_authSetting.ExpiredAt);
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(claims),
-                Expires = expDate,
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha512Signature)
-            };
+            return claims;
+        }
 
-            return new LogInResultModel
-            {
-                AccessToken = tokenHandler.WriteToken(tokenHandler.CreateToken(tokenDescriptor)),
-                UserId = user.Id
-            };
+        private JwtSecurityToken GenerateTokenOptions(SigningCredentials signingCredentials, List<Claim> claims)
+        {
+            var tokenOptions = new JwtSecurityToken(
+                issuer: _jwtSettings.ValidIssuer,
+                audience: _jwtSettings.ValidAudience,
+                claims: claims,
+                expires: DateTime.Now.AddMinutes(_jwtSettings.ExpiryInMinutes),
+                signingCredentials: signingCredentials);
+
+            return tokenOptions;
         }
     }
 }

@@ -15,12 +15,13 @@ namespace GS.Business.Mapping
             };
         }
 
-        public static User ToEntity(this RegisterModel model)
+        public static User ToEntity(this UserModel user)
         {
             return new User
             {
-                Email = model.Email,
-                Username = model.Username,
+                Id = user.Id,
+                Email = user.Email,
+                Username = user.Username
             };
         }
     }

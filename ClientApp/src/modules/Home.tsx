@@ -8,19 +8,19 @@ import TripsCardList from "../components/TripsCardList";
 const { Title } = Typography;
 
 const Home: FC = () => {
-  const [trips, setTrips] = useState([] as TripModel[]);
+  const [trips, setTrips] = useState<TripModel[]>([]);
 
   const userId = "a3ce5e17-35eb-4c1d-a6fe-565ddd67316c";
 
   const loadTrips = (userId: string) => {
     TripService.getByUserId(userId)
-    .then((response: any) => {
-      setTrips(response.data);
-      console.log(response.data);
-    })
-    .catch((e: Error) => {
-      console.log(e);
-    });
+      .then((response: any) => {
+        setTrips(response.data);
+        console.log(response.data);
+      })
+      .catch((e: Error) => {
+        console.log(e);
+      });
   }
 
   useEffect(() => {
@@ -28,7 +28,7 @@ const Home: FC = () => {
   }, []);
 
   const createTrip = () => {
-    TripService.create({UserId: userId})
+    TripService.create({ UserId: userId })
       .then(() => {
         loadTrips(userId);
       })
@@ -36,62 +36,62 @@ const Home: FC = () => {
         console.log(e);
       });
   };
-  
+
   const deleteTrip = (TripId: string) => {
     TripService.remove(TripId)
-    .then(() => {
-      console.log("success");
-      loadTrips(userId);
-    })
-    .catch((e: Error) => {
-      console.log(e);
-    });
+      .then(() => {
+        console.log("success");
+        loadTrips(userId);
+      })
+      .catch((e: Error) => {
+        console.log(e);
+      });
   };
-  
+
   return (
     <>
       <Row gutter={[0, 12]} justify="center" className="trip-content">
         <Col xs={24} sm={24} md={22} lg={20}>
-            <Title level={3} underline>In progress</Title>
-            <div className="site-card-wrapper">
-              <Row gutter={[16, 16]}> 
-                <TripsCardList trips={trips.filter(trip => trip.Status === TripStatus.InProgress)} 
-                onDelete={deleteTrip}/>
-              </Row>
-            </div>
-          </Col>
-          <Col xs={24} sm={24} md={22} lg={20}>
-            <Title level={3} underline>Planned</Title>
-            <div className="site-card-wrapper">
-              <Row gutter={[16, 16]}> 
-                <TripsCardList trips={trips.filter(trip => trip.Status === TripStatus.Planned)} 
-                onDelete={deleteTrip}/>
-                <Col xs={12} sm={8} md={8} lg={6}>
-                <Card 
-                  bordered={false} 
+          <Title level={3} underline>In progress</Title>
+          <div className="site-card-wrapper">
+            <Row gutter={[16, 16]}>
+              <TripsCardList trips={trips.filter(trip => trip.Status === TripStatus.InProgress)}
+                onDelete={deleteTrip} />
+            </Row>
+          </div>
+        </Col>
+        <Col xs={24} sm={24} md={22} lg={20}>
+          <Title level={3} underline>Planned</Title>
+          <div className="site-card-wrapper">
+            <Row gutter={[16, 16]}>
+              <TripsCardList trips={trips.filter(trip => trip.Status === TripStatus.Planned)}
+                onDelete={deleteTrip} />
+              <Col xs={12} sm={8} md={8} lg={6}>
+                <Card
+                  bordered={false}
                   hoverable={true}
                   cover={<div className="trip-img"></div>}
                   onClick={createTrip}
-                  >
+                >
                   <Row justify="center" className="add-trip-button">
                     <Button type="primary">
                       Add trip
                     </Button>
                   </Row>
                 </Card>
-                </Col>
-              </Row>
-            </div>
-          </Col>
-          <Col xs={24} sm={24} md={22} lg={20}>
-            <Title level={3} underline>Finished</Title>
-            <div className="site-card-wrapper">
-              <Row gutter={[16, 16]}> 
-                <TripsCardList trips={trips.filter(trip => trip.Status === TripStatus.Closed)} 
-                onDelete={deleteTrip}/>
-              </Row>
-            </div>
-          </Col>
+              </Col>
+            </Row>
+          </div>
+        </Col>
+        <Col xs={24} sm={24} md={22} lg={20}>
+          <Title level={3} underline>Finished</Title>
+          <div className="site-card-wrapper">
+            <Row gutter={[16, 16]}>
+              <TripsCardList trips={trips.filter(trip => trip.Status === TripStatus.Closed)}
+                onDelete={deleteTrip} />
+            </Row>
+          </div>
+        </Col>
       </Row>
     </>
   );

@@ -19,8 +19,7 @@ namespace GS.Business.Modules
                 .AddScoped<IQueryHandler, QueryHandler>()
                 .AddScoped<IDateTimeProvider, DateTimeProvider>()
                 .AddScoped<ITripStatusProvider, TripStatusProvider>()
-                .AddScoped<IAuthService, AuthService>()
-                .AddScoped<IPasswordHashProvider, PasswordHashProvider>();
+                .AddScoped<IAuthService, AuthService>();
 
             services.AddHandlers(typeof(ICommandHandler<>));
             services.AddHandlers(typeof(IQueryHandler<,>));

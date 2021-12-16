@@ -5,6 +5,8 @@ namespace GS.Data.Repositories.UserWrite
 {
     public interface IUserWriteRepository
     {
-        Task AddUser(User user);
+        Task AddUserAsync(User user);
+
+        Task AddUserLoginAsync(UserLogin userLogin);
     }
 }
