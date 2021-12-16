@@ -8,7 +8,7 @@ import { GetAuthData } from '../utils/storage-helper';
 
 const { Title } = Typography;
 
-const Home: FC = () => {
+const Trips: FC = () => {
   const [trips, setTrips] = useState<TripModel[]>([]);
   const authData = GetAuthData();
   const userId = authData?.id === undefined ? "" : authData.id;
@@ -98,4 +98,4 @@ const Home: FC = () => {
   );
 };
 
-export default Home;
+export default Trips;

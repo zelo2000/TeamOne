@@ -22,11 +22,11 @@ $header-font: 0.9375rem;
 .main-layout {
   min-height: 100vh;
   height: 100%;
-  
+
   .header-layout {
-    position: 'fixed';
+    position: "fixed";
     z-index: 1;
-    width: '100%';
+    width: "100%";
     min-height: 5rem;
     display: flex;
     justify-content: space-between;
@@ -35,16 +35,16 @@ $header-font: 0.9375rem;
       width: 4.5rem;
       transform: rotate(-5deg);
     }
-    
+
     .main-page-buttons {
       @extend %flex_align_center;
 
-      a {
+      .main-page-text {
         margin: 1rem;
         color: white;
         font-size: $header-font;
       }
-      
+
       & > *:nth-child(1) {
         margin-right: 2rem;
       }
@@ -57,7 +57,7 @@ $header-font: 0.9375rem;
       }
     }
 
-    .header-elem{
+    .header-elem {
       @extend %flex_align_center;
     }
 
@@ -81,16 +81,16 @@ $header-font: 0.9375rem;
 
 .trip-content {
   width: 100%;
-  
-  .trip-form-container{
+
+  .trip-form-container {
     height: 20rem;
     margin-bottom: 3rem;
 
     .trip-form {
       height: 100%;
 
-      .trip-button { 
-        button[type=submit] {
+      .trip-button {
+        button[type="submit"] {
           width: 100%;
         }
       }
@@ -129,12 +129,14 @@ $header-font: 0.9375rem;
   margin-bottom: 20px;
   font-weight: 500;
 
-  &.edit, &.done {
+  &.edit,
+  &.done {
     color: $darkblue;
     border: 2px solid $darkblue;
   }
 
-  &.edit:hover, &.done:hover {
+  &.edit:hover,
+  &.done:hover {
     background: $darkblue;
     color: white;
     -webkit-transition: all 0.15s ease-in-out;

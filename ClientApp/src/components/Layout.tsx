@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
-import { BrowserRouter as Router, Link, useHistory } from "react-router-dom";
+import { BrowserRouter as Router, Link } from "react-router-dom";
 import { Layout, Dropdown, Avatar, Menu } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import GoogleLogin, { GoogleLoginResponse, GoogleLoginResponseOffline, GoogleLogout } from 'react-google-login';
@@ -13,8 +13,6 @@ import { externalLogIn } from '../services/AuthService';
 const { Header, Content } = Layout;
 
 const CustomLayout: FC = ({ children }) => {
-  const history = useHistory();
-
   const [authData, setAuthData] = useState<ILogInResponse>();
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>();
 
@@ -37,14 +35,14 @@ const CustomLayout: FC = ({ children }) => {
       .then((response) => {
         setIsLoggedIn(true);
         WriteToken(response);
-        history.push('/')
+        window.location.pathname = '/trips';
       })
       .catch(() => CleanToken());
   }
 
   const logOut = () => {
     CleanToken();
-    window.location.pathname = "/login";
+    window.location.pathname = '/';
   };
 
   const NavBar = () => (
@@ -99,11 +97,12 @@ const CustomLayout: FC = ({ children }) => {
                   cookiePolicy={'single_host_origin'}
                   render={renderProps => (
                     <div className="main-page-buttons" onClick={renderProps.onClick}>
-                      Login
+                      <span className='main-page-text'>Login</span>
                     </div>
                   )}
                 />
-              </div>)
+              </div>
+            )
           }
         </Header>
         <Content className="content-layout">

@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { BrowserRouter as Router, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import Trips from './Trips';
 import Trip from './Trip';
@@ -9,6 +9,7 @@ import ProtectedRoute from '../components/ProtectedRoute';
 import CustomLayout from '../components/Layout';
 import { createBrowserHistory } from 'history'
 import ReactGA from 'react-ga';
+import Home from './Home';
 
 const App: FC = () => {
   ReactGA.initialize((String)(process.env.REACT_APP_GA_TRACKING_NO))
@@ -21,10 +22,11 @@ const App: FC = () => {
     <Router>
       <CustomLayout>
         <Switch>
-          <ProtectedRoute exact path="/">
+          <Route exact path="/" component={Home} />
+          <ProtectedRoute path="/trips">
             <Trips />
           </ProtectedRoute>
-          <ProtectedRoute exact path="/trip/:tripId">
+          <ProtectedRoute path="/trip/:tripId">
             <Trip />
           </ProtectedRoute>
         </Switch>

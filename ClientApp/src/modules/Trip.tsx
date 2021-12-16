@@ -75,7 +75,7 @@ const Trip: FC = () => {
   return (
     <Row className="trip-content">
       <Col span={24}>
-        <PageHeader onBack={() => history.push('/')} title={trip?.name || "New Trip"} />
+        <PageHeader onBack={() => history.push('/trips')} title={trip?.name || "New Trip"} />
       </Col>
       <Col span={24}>
         <Row justify="center">
