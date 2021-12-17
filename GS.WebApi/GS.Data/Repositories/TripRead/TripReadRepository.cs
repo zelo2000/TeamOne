@@ -16,6 +16,12 @@ namespace GS.Data.Repositories.TripRead
             _tripDbContext = tripDbContext;
         }
 
+        public List<Trip> GetTripList()
+        {
+            var trips = _tripDbContext.Trips.AsQueryable();
+            return trips.ToList();
+        }
+
         public async Task<IEnumerable<Trip>> GetUserTrips(Guid userId)
         {
             var trips = await _tripDbContext.Trips.FindAsync(x => x.UserId == userId);
