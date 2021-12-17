@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react';
 import moment from 'moment';
-import { Timeline, Modal, Input, DatePicker, Button, Radio, Row } from 'antd';
+import { Timeline, Modal, Input, DatePicker, Button, Radio, Row, Col } from 'antd';
 
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
@@ -11,6 +11,7 @@ import { NodeStatus } from '../models/NodeStatus';
 import { NodeType } from '../models/NodeType';
 import { TimelineColorType } from '../models/TimelineColorType';
 import { TripBaseModel } from '../models/TripBaseModel';
+import { Tooltip, Progress } from 'antd';
 
 const { confirm } = Modal;
 
@@ -137,8 +138,24 @@ const StepTimeline: FC<StepTimelineProps> = ({ items, trip, type, onAddClicked, 
     return itemsWithDate.concat(itemsWithoutDate);
   }
 
+  const countItems = (items: ToDoNodeModel[], status: NodeStatus) => {
+    return items.filter(item => item.status === status).length
+  }
+  
+  const countDoneItems = countItems(items, NodeStatus.Done);
+  const countInProgress = countItems(items, NodeStatus.InProgress);
+  const countToDoItems = countItems(items, NodeStatus.ToDo);
+
   return (
     <>
+      <Row justify="center" className='progressBar'>
+        <Col xs={22} sm={20} md={18} lg={16}>
+          <Tooltip title={countDoneItems + " done / " + countInProgress + " in progress / " + countToDoItems + " to do"}>
+            <Progress percent={(countDoneItems + countInProgress) / items.length * 100}
+             success={{ percent: countDoneItems / items.length * 100}} />
+          </Tooltip>
+        </Col>
+      </Row>
       {isEditing ?
         <Row justify="center"> 
           <Button className="todo-button done" onClick={() => setEditing(false)}>Done</Button>
