@@ -1,6 +1,7 @@
 // Here will be ant design classes overrides
 
 $darkblue: rgba(0, 21, 41, 1);
+$lightblue: rgba(24, 144, 255, 1);
 $header-font: 0.9375rem;
 
 .ant-form-vertical .ant-form-item-label > label {
@@ -70,4 +71,14 @@ $header-font: 0.9375rem;
 
 .ant-progress-inner {
   background-color: gray;
+}
+
+.ant-checkbox-wrapper {
+  padding: 5px;
+  border: 2px solid $darkblue;
+  border-radius: 5px;
+
+  span {
+    font-size: $header-font;
+  }
 }

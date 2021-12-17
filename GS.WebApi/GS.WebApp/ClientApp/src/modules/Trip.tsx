@@ -3,6 +3,7 @@ import { Row, Col, PageHeader } from 'antd';
 import { useHistory, useParams } from 'react-router-dom';
 
 import TripDescriptionForm from '../components/TripDescriptionForm';
+import ItemsToTake from '../components/ItemsToTake';
 import StepsToDo from "../components/StepsToDo";
 import { TripBaseModel } from '../models/TripBaseModel';
 import { ItemToTakeModel } from '../models/ItemToTakeModel';
@@ -10,7 +11,9 @@ import TripService from '../services/TripService';
 import { ToDoNodeModel } from '../models/ToDoNodeModel';
 import { ToDoNodeBaseModel } from '../models/ToDoNodeBaseModel';
 import ToDoService from '../services/ToDoService';
+import ItemsService from '../services/ItemsService';
 import { NodeStatus } from '../models/NodeStatus';
+import { ItemToTakeBaseModel } from '../models/ItemToTakeBaseModel';
 
 interface TripParams {
   tripId: string
@@ -21,7 +24,7 @@ const Trip: FC = () => {
   const history = useHistory();
 
   const [trip, setTrip] = useState<TripBaseModel>();
-  const [itemsToTake, setItemsToTake] = useState<ItemToTakeModel[]>();
+  const [itemsToTake, setItemsToTake] = useState<ItemToTakeModel[]>([]);
   const [toDoNodes, setToDoNodes] = useState<ToDoNodeModel[]>([]);
 
   const getTripData = () => {
@@ -37,6 +40,12 @@ const Trip: FC = () => {
   const getToDoNodes = () => {
     ToDoService.getByTripId(tripId)
       .then((response: any) => setToDoNodes(response.data))
+      .catch((e: Error) => console.log(e));
+  };
+
+  const getItemsToTake = () => {
+    ItemsService.getByTripId(tripId)
+      .then((response: any) => setItemsToTake(response.data))
       .catch((e: Error) => console.log(e));
   };
 
@@ -72,6 +81,34 @@ const Trip: FC = () => {
       .catch((e: Error) => console.log(e));
   };
 
+  const onAddItemToTake = (itemToTake: ItemToTakeBaseModel): void => {
+    ItemsService.create(tripId, itemToTake)
+      .then(() => getItemsToTake())
+      .catch((e: Error) => console.log(e));
+  };
+
+  const onRemoveItemToTake = (id: string): void => {
+    ItemsService.remove(id)
+      .then(() => getItemsToTake())
+      .catch((e: Error) => console.log(e));
+  };
+
+  const onItemToTakeStatusChange = (id: string, status: boolean): void => {
+    ItemsService.updateStatus(id, status)
+      .then(() => getItemsToTake())
+      .catch((e: Error) => console.log(e));
+  };
+
+  const onItemToTakeUpdate = (id: string, model: ItemToTakeBaseModel): void => {
+    ItemsService.save(id, model)
+      .then(() => getItemsToTake())
+      .catch((e: Error) => console.log(e));
+  };
+
+  const onAddClicked = () => {
+    onAddItemToTake({ name : "New Item" });
+  };
+
   return (
     <Row className="trip-content">
       <Col span={24}>
@@ -79,8 +116,28 @@ const Trip: FC = () => {
       </Col>
       <Col span={24}>
         <Row justify="center">
-          <Col xs={22} sm={18} md={14} lg={10} className="trip-form-container">
+          <Col 
+            xs={{ span: 22, offset: 0 }}
+            sm={{ span: 18, offset: 0 }}
+            md={{ span: 14, offset: 0 }}
+            lg={{ span: 11, offset: 0 }}
+            className="trip-form-container">
             {trip ? <TripDescriptionForm trip={trip as TripBaseModel} onSubmit={onTripFormSubmit} /> : <></>}
+          </Col>
+          <Col
+            xs={{ span: 22, offset: 0 }}
+            sm={{ span: 18, offset: 0 }}
+            md={{ span: 16, offset: 0 }}
+            lg={{ span: 14, offset: 0 }}
+            className="items-container">
+            {trip ? 
+            <ItemsToTake 
+              items={(itemsToTake || [])}
+              onAddItemToTake={onAddClicked}
+              onRemoveItemToTake={onRemoveItemToTake}
+              onItemToTakeStatusChange={onItemToTakeStatusChange}
+              onItemToTakeUpdate={onItemToTakeUpdate}
+            /> : <></>}
           </Col>
           <Col xs={24} sm={22} md={20} lg={18} className="todo-container">
             <StepsToDo

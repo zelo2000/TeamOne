@@ -151,7 +151,7 @@ const StepTimeline: FC<StepTimelineProps> = ({ items, trip, type, onAddClicked, 
       <Row justify="center" className='progressBar'>
         <Col xs={22} sm={20} md={18} lg={16}>
           <Tooltip title={countDoneItems + " done / " + countInProgress + " in progress / " + countToDoItems + " to do"}>
-            <Progress percent={(countDoneItems + countInProgress) / items.length * 100}
+            <Progress percent={Math.round(((countDoneItems + countInProgress) / items.length * 100) * 1e2 / 1e2)}
              success={{ percent: countDoneItems / items.length * 100}} />
           </Tooltip>
         </Col>

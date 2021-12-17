@@ -84,7 +84,6 @@ $header-font: 0.9375rem;
 
   .trip-form-container {
     height: 20rem;
-    margin-bottom: 3rem;
 
     .trip-form {
       height: 100%;
@@ -98,7 +97,12 @@ $header-font: 0.9375rem;
   }
 
   .todo-container {
-    padding-top: 3rem;
+    padding-top: 4rem;
+  }
+  
+  .items-container {
+    padding-top: 2rem;
+    padding-left: 0.5rem;
   }
 }
 
@@ -129,6 +133,10 @@ $header-font: 0.9375rem;
   margin-bottom: 20px;
   font-weight: 500;
 
+  &.edit.items {
+    margin-bottom: 5px;
+  }
+
   &.edit,
   &.done {
     color: $darkblue;
@@ -150,14 +158,23 @@ $header-font: 0.9375rem;
 }
 
 .edit-todo-text input.ant-input {
+  width: 80%;
   font-size: 17.5px;
   font-weight: 500;
   padding: 0 0 0.5em 0;
 }
 
 .edit-todo-text textarea.ant-input {
+  width: 80%;
   padding: 0;
   font-size: $header-font;
+  margin-bottom: 5px;
+}
+
+.edit-todo-text input.ant-input:focus, .edit-todo-text textarea.ant-input:focus {
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  border: 2px solid $lightblue;
 }
 
 .edit-todo-dates.ant-picker {
@@ -180,6 +197,14 @@ $header-font: 0.9375rem;
 
   img {
     max-width: 50rem;
+    width: 100%;
+  }
+}
+
+.items-to-take-container {
+  width: 100%;
+
+  button {
     width: 100%;
   }
 }
