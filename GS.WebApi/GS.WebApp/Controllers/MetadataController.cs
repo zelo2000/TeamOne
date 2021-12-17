@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 
-namespace GS.WebApi.Controllers
+namespace GS.WebApp.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

@@ -9,7 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace GS.WebApi.Controllers
+namespace GS.WebApp.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
