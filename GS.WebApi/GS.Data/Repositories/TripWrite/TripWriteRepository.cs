@@ -36,6 +36,12 @@ namespace GS.Data.Repositories.TripWrite
             await _tripDbContext.Trips.DeleteOneAsync(t => t.Id == tripId);
         }
 
+        public async Task SetTripStatus(Guid tripId, TripStatus status)
+        {
+            var update = Builders<Trip>.Update.Set("Status", status);
+            await _tripDbContext.Trips.UpdateOneAsync(t => t.Id == tripId, update);
+        }
+
         public async Task AddToDoNode(Guid tripId, ToDoNode node)
         {
             var update = Builders<Trip>.Update.AddToSet("ToDoNodes", node);

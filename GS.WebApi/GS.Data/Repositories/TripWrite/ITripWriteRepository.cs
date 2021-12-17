@@ -14,6 +14,8 @@ namespace GS.Data.Repositories.TripWrite
 
         Task DeleteTrip(Guid tripId);
 
+        Task SetTripStatus(Guid tripId, TripStatus status);
+
         // To Do Node
         Task AddToDoNode(Guid tripId, ToDoNode node);
 
