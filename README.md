@@ -60,19 +60,19 @@ On the same page there will be a possibility to create a new trip from suggested
 
 **Use case diagram**
 
-<img src="./Documantation/use-case-diagram.png">
+<img src="./Documentation/use-case-diagram.png">
 <br/>
 <br/>
 
 **Guest sequence diagram**
 
-<img src="./Documantation/guest-sequence-diagram.png">
+<img src="./Documentation/guest-sequence-diagram.png">
 <br/>
 <br/>
 
 **User sequence diagram**
 
-<img src="./Documantation/user-sequence-diagram.png">
+<img src="./Documentation/user-sequence-diagram.png">
 <br/>
 <br/>
 
@@ -85,7 +85,7 @@ On the same page there will be a possibility to create a new trip from suggested
 | DB              | SQL database for user management and NoSQL for user trips | Azure SQL Database, MongoDB   |
 
 <br/>
-<img src="./Documantation/architecture-diagram.png">
+<img src="./Documentation/architecture-diagram.png">
 <br/>
 <br/>
 
@@ -148,7 +148,7 @@ Example of _TripTemplate_ document for MongoDB:
 
 **ER diagram**
 
-<img src="./Documantation/er-diagram.png">
+<img src="./Documentation/Go & See ER-diagram.png">
 <br/>
 <br/>
 
