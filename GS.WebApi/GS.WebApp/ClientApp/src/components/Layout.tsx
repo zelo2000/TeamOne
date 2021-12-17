@@ -94,7 +94,6 @@ const CustomLayout: FC = ({ children }) => {
                   clientId={process.env.REACT_APP_GOOGLE_AUTH_CLIENT_ID || ""}
                   onSuccess={responseGoogle}
                   onFailure={responseGoogle}
-                  cookiePolicy={'single_host_origin'}
                   render={renderProps => (
                     <div className="main-page-buttons" onClick={renderProps.onClick}>
                       <span className='main-page-text'>Login</span>
