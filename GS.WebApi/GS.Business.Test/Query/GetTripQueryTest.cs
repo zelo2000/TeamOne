@@ -12,13 +12,13 @@ namespace GS.Business.Test.Query
     public class GetTripQueryTest
     {
         private Mock<ITripReadRepository> _tripReadRepository;
-        private GetTripQueryHandler _getItemsToTakeQueryHandler;
+        private GetTripQueryHandler _handler;
 
         [SetUp]
         public void SetUp()
         {
             _tripReadRepository = new Mock<ITripReadRepository>();
-            _getItemsToTakeQueryHandler = new GetTripQueryHandler(_tripReadRepository.Object);
+            _handler = new GetTripQueryHandler(_tripReadRepository.Object);
         }
 
         [Test]
@@ -35,7 +35,7 @@ namespace GS.Business.Test.Query
                 .ReturnsAsync(trip);
 
             var query = new GetTripQuery(id);
-            var result = await _getItemsToTakeQueryHandler.Handle(query);
+            var result = await _handler.Handle(query);
 
             result.Should().NotBeNull();
             result.Id.Should().Be(Guid.Empty);

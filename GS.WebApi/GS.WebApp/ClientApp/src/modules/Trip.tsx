@@ -30,9 +30,9 @@ const Trip: FC = () => {
   const getTripData = () => {
     TripService.getById(tripId)
       .then((response: any) => {
-        setTrip(response.data[0]);
-        setItemsToTake(response.data[0].ItemsToTake);
-        setToDoNodes(response.data[0].ToDoNodes);
+        setTrip(response.data);
+        setItemsToTake(response.data.ItemsToTake);
+        setToDoNodes(response.data.ToDoNodes);
       })
       .catch((e: Error) => console.log(e));
   }
