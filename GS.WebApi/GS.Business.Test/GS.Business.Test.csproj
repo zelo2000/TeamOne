@@ -19,4 +19,9 @@
     <ProjectReference Include="..\GS.Business\GS.Business.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Mapping\" />
+    <Folder Include="Command\" />
+  </ItemGroup>
+
 </Project>

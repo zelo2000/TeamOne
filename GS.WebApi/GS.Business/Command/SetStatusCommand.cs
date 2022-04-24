@@ -34,7 +34,7 @@ namespace GS.Business.Command
         }
         public async Task Handle(SetStatusCommand command)
         {
-            var trip = (await _tripReadRepository.GetTripById(command.TripId)).FirstOrDefault();
+            var trip = await _tripReadRepository.GetTripById(command.TripId);
             var status = _tripStatusProvider.GetStatus(trip);
             await _tripWriteRepository.SetTripStatus(command.TripId, status);
         }

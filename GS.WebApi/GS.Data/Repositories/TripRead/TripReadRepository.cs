@@ -28,10 +28,10 @@ namespace GS.Data.Repositories.TripRead
             return trips.ToList();
         }
 
-        public async Task<IEnumerable<Trip>> GetTripById(Guid tripId)
+        public async Task<Trip> GetTripById(Guid tripId)
         {
             var trips = await _tripDbContext.Trips.FindAsync(x => x.Id == tripId);
-            return trips.ToList();
+            return trips.FirstOrDefault();
         }
 
         public async Task<IEnumerable<ToDoNode>> GetToDoNodes(Guid tripId)
