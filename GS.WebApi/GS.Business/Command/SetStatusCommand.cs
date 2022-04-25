@@ -3,9 +3,6 @@ using GS.Business.Infrastructure.Command;
 using GS.Data.Repositories.TripRead;
 using GS.Data.Repositories.TripWrite;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace GS.Business.Command
@@ -32,6 +29,7 @@ namespace GS.Business.Command
             _tripReadRepository = tripReadRepository;
             _tripStatusProvider = tripStatusProvider;
         }
+
         public async Task Handle(SetStatusCommand command)
         {
             var trip = await _tripReadRepository.GetTripById(command.TripId);
