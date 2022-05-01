@@ -7,19 +7,14 @@ namespace GS.Data
 {
     public class TripDbContext
     {
-        public IMongoCollection<Trip> Trips { get; set; }
+        public IMongoDatabase _mongoDatabase;
 
-        public IMongoCollection<Trip> TripTemplates { get; set; }
-
-        public TripDbContext(IOptions<MongoDbSettings> option)
+        public TripDbContext(IMongoClient mongoClient, IOptions<MongoDbSettings> options)
         {
-            var settings = option.Value;
-
-            var client = new MongoClient(settings.ConnectionString);
-            var database = client.GetDatabase(settings.DatabaseName);
-
-            Trips = database.GetCollection<Trip>("trips");
-            TripTemplates = database.GetCollection<Trip>("trip-templates");
+            _mongoDatabase = mongoClient.GetDatabase(options.Value.DatabaseName);
+            Trips = _mongoDatabase.GetCollection<Trip>("trips");
         }
+
+        public virtual IMongoCollection<Trip> Trips { get; set; }
     }
 }

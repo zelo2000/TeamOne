@@ -3,7 +3,10 @@ using GS.Business.Infrastructure;
 using GS.Business.Infrastructure.Command;
 using GS.Business.Infrastructure.Query;
 using GS.Business.Query.Core;
+using GS.Domain.Models.Configuration;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MongoDB.Driver;
 using System;
 using System.Linq;
 
@@ -11,9 +14,15 @@ namespace GS.Business.Modules
 {
     public static class BusinessModule
     {
-        public static void AddBusinessModule(this IServiceCollection services)
+        public static void AddBusinessModule(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddScoped<ICommandHandlerFactory, CommandHandlerFactory>()
+            var settings = new MongoDbSettings();
+            configuration.GetSection("MongoDatabaseSettings").Bind(settings);
+            var mongoClient = new MongoClient(settings.ConnectionString);
+
+            services
+                .AddSingleton<IMongoClient>(mongoClient)
+                .AddScoped<ICommandHandlerFactory, CommandHandlerFactory>()
                 .AddScoped<ICommandHandler, CommandHandler>()
                 .AddScoped<IQueryHandlerFactory, QueryHandlerFactory>()
                 .AddScoped<IQueryHandler, QueryHandler>()

@@ -39,7 +39,7 @@ namespace GS.WebApp
             services.Configure<JwtSettings>(Configuration.GetSection("JWTSettings"));
 
             services.AddDataModule(Configuration);
-            services.AddBusinessModule();
+            services.AddBusinessModule(Configuration);
 
             ConfigureAuthentication(services);
 

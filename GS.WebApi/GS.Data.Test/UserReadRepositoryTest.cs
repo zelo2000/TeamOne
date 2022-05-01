@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace GS.Data.Test
 {
-    public class UserReadRepositoryTest
+    public class UserReadRepositoryTest: BaseRepositoryTest
     {
         private UserReadRepository _userReadRepository;
         private GSDbContext _dbContext;
-        protected Fixture _fixture;
+
 
         [SetUp]
         public void SetUp()
@@ -25,9 +25,6 @@ namespace GS.Data.Test
 
             _dbContext = new GSDbContext(options);
             _userReadRepository = new UserReadRepository(_dbContext);
-
-            _fixture = new Fixture();
-            _fixture.Behaviors.Add(new OmitOnRecursionBehavior());
         }
 
         [Test]
