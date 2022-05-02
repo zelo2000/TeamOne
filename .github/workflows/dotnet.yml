@@ -1,0 +1,27 @@
+name: Run test when create pull request to develop
+
+on:
+  pull_request:
+    branches: [ develop ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: 5.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build GS.Data.Test
+      run:  dotnet build --configuration Release ./GS.WebApi/GS.Data.Test
+    - name: Build GS.Business.Test
+      run:  dotnet build --configuration Release ./GS.WebApi/GS.Business.Test
+    - name: Run test in GS.Business.Test
+      run:  dotnet test ./GS.WebApi/GS.Business.Test
+    - name: Run test in GS.Data.Test
+      run:  dotnet test ./GS.WebApi/GS.Data.Test
