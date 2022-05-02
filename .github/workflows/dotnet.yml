@@ -16,7 +16,7 @@ jobs:
       with:
         dotnet-version: 5.0.x
     - name: Restore dependencies
-      run: dotnet restore --configuration ./GS.WebApi
+      run: dotnet restore --configuration ./GS.WebApi/GoSee.sln
     - name: Build GS.Data.Test
       run:  dotnet build --configuration Release ./GS.WebApi/GS.Data.Test
     - name: Build GS.Business.Test
